@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layouts/admin_layout}"
+       lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit city</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <a href="/admin-city" class="breadcrumb-item">List of cities</a>
+                <span class="breadcrumb-item active">Edit city</span>
+            </nav>
+        </div>
+    </div>
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic" >
+            <div class="card">
+                <form th:action="@{/admin-city/edit}" th:object="${city}"
+                      method="post" enctype="multipart/form-data" class="card-body">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="cityName">City Name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="cityName" placeholder="City name">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="description">Description</label>
+                        <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="active">Active</label>
+                        <input style="width: 20px; height: 20px; margin-left: 7px ;cursor: pointer;"
+                               type="checkbox" th:field="*{active}" class="form-control" id="active" placeholder="Description">
+                    </div>
+                    <div style="clear: both" class="form-group">
+                        <label class="font-weight-semibold" for="image">Image</label>
+                        <input type="file" name="img" class="form-control" id="image" placeholder="Image">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
