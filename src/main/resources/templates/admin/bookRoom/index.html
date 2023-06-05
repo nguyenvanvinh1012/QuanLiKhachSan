@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/admin_layout}"
-      lang="en">
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layouts/admin_layout}"
+       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hotel Manager</title>
+    <title>Book Room Manager</title>
 </head>
 <body>
-
 <div layout:fragment="content">
     <div class="page-header">
         <div class="header-sub-title">
             <nav class="breadcrumb breadcrumb-dash">
                 <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                <span class="breadcrumb-item active">Hotel list</span>
+                <span class="breadcrumb-item active">List of Booked Room</span>
             </nav>
         </div>
     </div>
-    <span class="d-none" id="messageSuccess" th:text="${message}"></span>
+<!--    <span class="d-none" id="messageSuccess" th:text="${message}"></span>-->
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -28,14 +27,10 @@
                             <div class="input-affix m-v-10">
                                 <i class="prefix-icon anticon anticon-search opacity-04"></i>
                                 <input id="keyword" name="keyword" type="text" class="form-control"
-                                       placeholder="Search hotel">
+                                       placeholder="Search Booked Room ">
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 text-right">
-                    <a th:href="@{/admin-hotel/add}" class="btn btn-primary"><i
-                            class="anticon anticon-plus-circle m-r-5"></i><span>Add hotel</span></a>
                 </div>
             </div>
             <div class="table-responsive">
@@ -43,33 +38,36 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Hotel name</th>
-                        <th>Center</th>
-                        <th>Evaluate</th>
-                        <th>City</th>
-                        <th>Hotel type</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Is-Paid</th>
+                        <th>Total Money</th>
+                        <th>Id Room</th>
                     </tr>
                     </thead>
                     <tbody id="records_table">
-                    <tr th:each="hotel : ${list_hotel}">
-                        <td th:text="${hotel.id}"></td>
+                    <tr th:each="temp : ${list_bookRoom}">
+                        <td th:text="${temp.id}"></td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img class="img-fluid rounded" th:src="@{${hotel.imagesPath1}}" style="max-width: 80px"
-                                     alt="">
-                                <h6 class="m-b-0 m-l-10" th:text="${hotel.name}"></h6>
+                                <h6 class="m-b-0 m-l-10" th:text="${temp.check_in}"></h6>
                             </div>
                         </td>
-                        <td th:text="${hotel.center + 'km'}"></td>
-                        <td><span th:text="${hotel.vote}"></span><i style="margin-left: 2px"
-                                                                    class="anticon anticon-star"></i></td>
-                        <!--            <td th:text="${hotel.vote}"></td>-->
-                        <td th:text="${hotel.city.name}"></td>
-                        <!--            <td th:text="${hotel.hotel_type.name}"></td>-->
-                        <td>name</td>
+                        <td th:text="${temp.check_out}"></td>
+                        <td th:if="${temp.isPaid} == true">
+                            <div class="d-flex align-items-center">
+                                <div class="badge badge-success badge-dot m-r-10"></div>
+                                <div>True</div>
+                            </div>
+                        </td>
+                        <td th:if="${temp.isPaid} == false">
+                            <div class="d-flex align-items-center">
+                                <div class="badge badge-danger badge-dot m-r-10"></div>
+                                <div>False</div>
+                            </div>
+                        </td>
                         <td>
-                            <a th:href="@{/admin-hotel/edit/{id}(id=${hotel.id})}" title="Edit"
-                               class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                            <a th:href="@{/admin-bookRoom/edit/{id}(id=${temp.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i></a>
                             <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                 <i class="anticon anticon-delete"></i></a>

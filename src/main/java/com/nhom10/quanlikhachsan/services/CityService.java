@@ -15,6 +15,9 @@ public class CityService {
     public List<City> getAllCities(){
         return cityRepository.findAll();
     }
+    public List<City> getAllCitiesActive(){
+        return cityRepository.findAllByActive();
+    }
     public City getCityById(Long id){
         Optional<City> optional = cityRepository.findById(id);
         return optional.orElse(null);

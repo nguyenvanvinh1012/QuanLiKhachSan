@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user_layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List hotel</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="breadcrumb-main pb-0" style="background-image: url(/images/bg/bg8.jpg);">
+        <div class="breadcrumb-outer pt-10">
+            <div class="container">
+            </div>
+        </div>
+        <div class="dot-overlay"></div>
+    </section>
+    <section class="blog destination-b pb-6">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-xs-12 mb-4">
+                    <div class="trend-box">
+                        <div class="list-results">
+                            <div class="d-flex justify-content-between align-items-center mb-2 border-b pb-2">
+                                <h3 style="font-size: 25px" class="mb-0"><span th:text="${city_name}"></span>: <span th:text="${count_hotel}"></span> hotels
+                                    found</h3>
+                                <div class="click-menu d-flex align-items-center justify-content-between">
+                                    <div class="change-list f-active mr-2"><a href="hotel-list.html"><i
+                                            class="fa fa-bars"></i></a></div>
+                                    <div class="change-grid"><a href="#"><i class="fa fa-th"></i></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:each="hotel : ${list_hotel}" class="blog-full d-flex justify-content-around mb-4">
+                            <div class="row w-100">
+                                <div class="col-lg-5 col-md-4 col-xs-12 blog-height">
+                                    <div class="blog-image">
+                                        <!--                                        th:src="@{${city.imagesPath}}"-->
+                                        <a href=""
+                                           th:style="'background-image: url('+ ${hotel.getImagesPath1()} +')'"></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-8 col-xs-12">
+                                    <div class="trend-content-main">
+                                        <div class="trend-content pt-2 pb-2">
+                                            <div class="pb-1 d-flex align-items-center justify-content-between">
+                                                <div class="rating">
+                                                    <small style="margin-right: 3px" th:each="vote : ${#numbers.sequence(1, hotel.vote)}"
+                                                           class="fas fa-star pink"></small>
+                                                </div>
+                                                <a href="#"><i class="flaticon-like"></i></a>
+                                            </div>
+                                            <h3 class="mb-1"><a href="" th:text="${hotel.name}"></a></h3>
+                                            <div class="mb-2">
+                                                <i class="icon fa fa-map-marker-alt mr-2"></i> <span
+                                                    th:text="${hotel.address}"></span>
+                                                <small class="px-1 font-size-15"> - </small>
+                                                <span class="text-primary font-size-14">View on map</span>
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="text-primary font-size-14">Cách trung tâm: <span
+                                                        th:text="${hotel.center}"></span> km</span>
+                                            </div>
+                                            <div class="mb-2">
+                                         <span class="text-primary font-size-14">Hotel type</span>
+                                                   </div>
+                                            <div class="trend-daily">
+                                                <h4 class="mb-0 pink font-weight-bold">From 150.000 VNĐ <small>/
+                                                    night</small></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-12 mb-4">
+                    <div class="sidebar-sticky">
+                        <!--                        @using (Html.BeginForm("Search", "KhachSan"))-->
+                        <!--                        {-->
+                        <div class="sidebar-item mb-4">
+                            <div class="form-content">
+                                <h4 class="title white">Find Hotel</h4>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="white">Destination or Hotel Name</label>
+                                            <div class="input-box">
+                                                <i class="flaticon-placeholder"></i>
+                                                <input type="text" name="keyword" value="@tp.Ten"
+                                                       placeholder="Where are you going?"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="white">Check In</label>
+                                            <div class="input-box">
+                                                <!--                                                @if (kt == true)-->
+                                                <!--                                                {-->
+                                                <input style="padding-left: 10px" type="date" min="" id="ngayden"
+                                                       name="ngayden" value="" required>
+
+                                                <!--                                                }-->
+                                                <!--                                                else-->
+                                                <!--                                                {-->
+                                                <!--                                                <input style="padding-left: 10px" type="date" min="" id="ngayden" name="ngayden" required>-->
+                                                <!--                                                }-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="white">Check Out</label>
+                                            <div class="input-box">
+                                                <!--                                                @if (kt == true)-->
+                                                <!--                                                {-->
+                                                <input style="padding-left: 10px" type="date" min="" id="ngaydi"
+                                                       name="ngaydi" value="" required>
+
+                                                <!--                                                }-->
+                                                <!--                                                else-->
+                                                <!--                                                {-->
+                                                <!--                                                <input style="padding-left: 10px" type="date" min="" id="ngaydi" name="ngaydi" required>-->
+                                                <!--                                                }-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="white">Guests</label>
+                                            <div class="input-box">
+                                                <i class="flaticon-add-user"></i>
+                                                <select class="niceSelect">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group mb-0">
+                                            <button type="submit" class="nir-btn w-100"><i class="fa fa-search"></i>Check
+                                                Availability
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-sidebar">
+                            <div class="sidebar-item">
+                                <div class="detail-title">
+                                    <h3>Select by</h3>
+                                </div>
+                            </div>
+                            <div class="sidebar-item">
+                                <div class="detail-title">
+                                    <h3>Rating</h3>
+                                </div>
+                                <div class="sidebar-content">
+                                    <div class="pretty p-default p-thick p-pulse">
+                                        <input type="checkbox"/>
+                                        <div class="state">
+                                            <label>No rating</label>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-content">
+                                        <div class="pretty p-default p-thick p-pulse">
+                                            <input name="starRating" type="checkbox"/>
+                                            <div class="state">
+                                                <label>1 star</label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-default p-thick p-pulse">
+                                            <input name="starRating" type="checkbox"/>
+                                            <div class="state">
+                                                <label>2 star</label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-default p-thick p-pulse">
+                                            <input name="starRating" type="checkbox"/>
+                                            <div class="state">
+                                                <label>3 star</label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-default p-thick p-pulse">
+                                            <input name="starRating" type="checkbox"/>
+                                            <div class="state">
+                                                <label>4 star</label>
+                                            </div>
+                                        </div>
+                                        <div class="pretty p-default p-thick p-pulse">
+                                            <input type="checkbox"/>
+                                            <div name="starRating" class="state">
+                                                <label>5 star</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar-item">
+                                <h3>Distance to center</h3>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Under 1 km</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Under 3 km</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Under 5km</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar-item">
+                                <h3>Hotel type</h3>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Khách sạn</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Biệt thự</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Resort</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default p-thick p-pulse">
+                                    <input type="checkbox"/>
+                                    <div class="state">
+                                        <label>Thôn dã</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+</body>
+</html>

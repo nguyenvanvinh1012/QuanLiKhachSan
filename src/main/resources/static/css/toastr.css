@@ -94,6 +94,9 @@ button.toast-close-button {
   pointer-events: none;
   /*overrides*/
 }
+#toast-container{
+  margin-top: 70px;
+}
 #toast-container * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

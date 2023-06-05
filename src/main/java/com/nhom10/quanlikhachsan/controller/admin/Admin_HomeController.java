@@ -6,10 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 public class Admin_HomeController {
-
     @RequestMapping("")
     public String home(){
         return "admin/home/index";
     }
-
 }
