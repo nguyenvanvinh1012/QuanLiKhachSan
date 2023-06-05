@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layouts/admin_layout}"
+       lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add role</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <a href="/admin-role" class="breadcrumb-item">List of role</a>
+                <span class="breadcrumb-item active">Add role</span>
+            </nav>
+        </div>
+    </div>
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic" >
+            <div class="card">
+                <form th:action="@{/admin-role/add}" th:object="${role}"
+                      method="post" enctype="multipart/form-data" class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="roleName">role Name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="roleName" placeholder="Role name">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="description">Description</label>
+                        <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

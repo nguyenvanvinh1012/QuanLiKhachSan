@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layouts/admin_layout}"
+       lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Role Manager</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="/role" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <span class="breadcrumb-item active">List of role</span>
+            </nav>
+        </div>
+    </div>
+    <span class="d-none" id="messageSuccess" th:text="${message}"></span>
+    <div class="card">
+        <div class="card-body">
+            <div class="row m-b-30">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-affix m-v-10">
+                                <i class="prefix-icon anticon anticon-search opacity-04"></i>
+                                <input id="keyword" name="keyword" type="text" class="form-control"
+                                       placeholder="Search city ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <a th:href="@{/admin-role/add}" class="btn btn-primary"><i
+                            class="anticon anticon-plus-circle m-r-5"></i><span>Add role</span></a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover e-commerce-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Role name</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="records_table">
+                    <tr th:each="role : ${list_role}">
+                        <td th:text="${role.id}"></td>
+                        <td th:text="${role.name}"></td>
+                        <td th:text="${role.description}"></td>
+                        <td>
+                            <a th:href="@{/admin-role/edit/{id}(id=${role.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                <i class="anticon anticon-edit"></i></a>
+                            <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                <i class="anticon anticon-delete"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var message = $('#messageSuccess').text();
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+            }
+            if (message !== '') {
+                toastr.success(message);
+            }
+        });
+    </script>
+</div>
+</body>
+</html>
