@@ -19,4 +19,8 @@ public class HotelType {
     private Boolean active;
     @OneToMany(mappedBy = "hotel_type")
     private List<Hotel> hotels;
+    public String getImagesPath(){
+        if(image == null || id == null) return null;
+        return "/hotelType-images/" + id + "/" + image;
+    }
 }

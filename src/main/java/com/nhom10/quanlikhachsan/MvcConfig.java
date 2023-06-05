@@ -13,6 +13,8 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         exposeDirectory("city-images", registry);
         exposeDirectory("hotel-images", registry);
+        exposeDirectory("hotelType-images", registry);
+        exposeDirectory("room-images", registry);
 
     }
 

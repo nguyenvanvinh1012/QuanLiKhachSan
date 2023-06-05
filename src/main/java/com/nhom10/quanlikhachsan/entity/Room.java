@@ -15,6 +15,8 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "img", length = 64)
+    private String image;
     private double area; //dien tich
     private double rent;
     private String convenient;
@@ -25,4 +27,8 @@ public class Room {
     private Hotel hotel;
     @OneToMany(mappedBy = "room")
     private List<BookRoom> bookRooms = new ArrayList<>();
+    public String getImagesPath(){
+        if(image == null || id == null) return null;
+        return "/room-images/" + id + "/" + image;
+    }
 }
