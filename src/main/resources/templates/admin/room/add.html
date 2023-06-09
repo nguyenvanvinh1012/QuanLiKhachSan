@@ -13,8 +13,8 @@
         <div class="header-sub-title">
             <nav class="breadcrumb breadcrumb-dash">
                 <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                <a href="/admin-room" class="breadcrumb-item">List of cities</a>
-                <span class="breadcrumb-item active">Add Hotel Type</span>
+                <a href="/admin-room" class="breadcrumb-item">List of Room</a>
+                <span class="breadcrumb-item active">Add Room</span>
             </nav>
         </div>
     </div>
@@ -24,8 +24,8 @@
                 <form th:action="@{/admin-room/add}" th:object="${room}"
                       method="post" enctype="multipart/form-data" class="card-body">
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="cityName">Type Name</label>
-                        <input type="text" th:field="*{name}" class="form-control" id="cityName" placeholder="Type name">
+                        <label class="font-weight-semibold" for="roomName">Type Name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="roomName" placeholder="Room name">
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="area">Area</label>
@@ -44,13 +44,19 @@
                         <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
                     </div>
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="bed_type">Bed_type</label>
-                        <input type="text" th:field="*{bed_type}" class="form-control" id="bed_type" placeholder="Bed_type">
+                        <label class="font-weight-semibold">Bed_type</label>
+                        <select class="custom-select" id="bed_type" name="bed_type">
+                            <option value="1">Phòng đơn</option>
+                            <option value="2">Phòng đôi</option>
+                        </select>
                     </div>
-<!--                    <div class="form-group">-->
-<!--                        <label class="font-weight-semibold" for="hotel">Hotel</label>-->
-<!--                        <input type="text" th:field="*{hotel}" class="form-control" id="hotel" placeholder="Hotel">-->
-<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="hotel">Hotel</label>
+                        <select class="custom-select" id="hotel" name="hotel.id">
+                            <option th:each="hotel :${list_hotel}" th:value="${hotel.id}"
+                                    th:text="${hotel.name}"></option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="image">Image</label>
                         <input required type="file" name="img" class="form-control" id="image" placeholder="Image">

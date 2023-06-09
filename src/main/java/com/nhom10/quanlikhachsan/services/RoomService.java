@@ -12,7 +12,7 @@ import java.util.Optional;
 public class RoomService {
     @Autowired
     private IRoomRepository roomRepository;
-    public List<Room> getAllCities(){
+    public List<Room> getAllRoom(){
         return roomRepository.findAll();
     }
     public Room getRoomById(Long id){
