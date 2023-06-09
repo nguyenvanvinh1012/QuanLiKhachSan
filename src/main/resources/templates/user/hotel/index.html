@@ -37,8 +37,7 @@
                             <div class="row w-100">
                                 <div class="col-lg-5 col-md-4 col-xs-12 blog-height">
                                     <div class="blog-image">
-                                        <!--                                        th:src="@{${city.imagesPath}}"-->
-                                        <a href=""
+                                        <a th:href="@{/hotel/detail/{id}(id=${hotel.id})}"
                                            th:style="'background-image: url('+ ${hotel.getImagesPath1()} +')'"></a>
                                     </div>
                                 </div>
@@ -52,7 +51,7 @@
                                                 </div>
                                                 <a href="#"><i class="flaticon-like"></i></a>
                                             </div>
-                                            <h3 class="mb-1"><a href="" th:text="${hotel.name}"></a></h3>
+                                            <h3 class="mb-1"><a th:href="@{/hotel/detail/{id}(id=${hotel.id})}" th:text="${hotel.name}"></a></h3>
                                             <div class="mb-2">
                                                 <i class="icon fa fa-map-marker-alt mr-2"></i> <span
                                                     th:text="${hotel.address}"></span>

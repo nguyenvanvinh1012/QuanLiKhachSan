@@ -37,12 +37,7 @@ public class Admin_CityController {
     public String addCity(@ModelAttribute("city") City city,
                           @RequestParam("img") MultipartFile multipartFile,
                           RedirectAttributes redirectAttributes) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        city.setImage(fileName);
-        city.setActive(true);
-        City savedCity  = cityService.addCity2(city);
-        String upLoadDir = "city-images/" + savedCity.getId();
-        FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
+        cityService.addCity(city, multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin-city";
     }
@@ -68,19 +63,7 @@ public class Admin_CityController {
                        @RequestParam("img") MultipartFile multipartFile,
                        RedirectAttributes redirectAttributes)throws IOException{
 
-        City city = cityService.getCityById(updateCity.getId());
-        city.setName(updateCity.getName());
-        city.setDescription(updateCity.getDescription());
-        city.setActive(updateCity.getActive());
-
-        if(multipartFile != null && !multipartFile.isEmpty()){
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            city.setImage(fileName);
-            String upLoadDir = "city-images/" + city.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        }
-
-        cityService.updateCity(city);
+        cityService.updateCity(updateCity, multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin-city";
     }

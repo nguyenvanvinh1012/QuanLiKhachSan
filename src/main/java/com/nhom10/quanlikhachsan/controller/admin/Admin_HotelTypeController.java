@@ -20,7 +20,7 @@ public class Admin_HotelTypeController {
     private HotelTypeService hotelTypeService;
     @GetMapping("")
     public String index(Model model){
-        model.addAttribute("list_hotelType", hotelTypeService.getAllCities());
+        model.addAttribute("list_hotelType", hotelTypeService.getAllHotelType());
         if(model.containsAttribute("message")){
             model.addAttribute("message", model.getAttribute("message"));
         }
@@ -48,7 +48,7 @@ public class Admin_HotelTypeController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, Model model){
         HotelType editHotelType = null;
-        for(HotelType hotelType: hotelTypeService.getAllCities()){
+        for(HotelType hotelType: hotelTypeService.getAllHotelType()){
             if(hotelType.getId() == id){
                 editHotelType  = hotelType;
             }

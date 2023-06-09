@@ -48,6 +48,7 @@
                         <th>Evaluate</th>
                         <th>City</th>
                         <th>Hotel type</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody id="records_table">
@@ -55,18 +56,31 @@
                         <td th:text="${hotel.id}"></td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img class="img-fluid rounded" th:src="@{${hotel.imagesPath1}}" style="max-width: 80px"
-                                     alt="">
+                                <div style="width: 150px; height: 100px">
+                                    <img class="img-fluid rounded" style="max-width: 100%; object-fit: cover; width: 100%; height: 100px" th:src="@{${hotel.imagesPath1}}"
+                                         alt="">
+                                </div>
                                 <h6 class="m-b-0 m-l-10" th:text="${hotel.name}"></h6>
                             </div>
                         </td>
                         <td th:text="${hotel.center + 'km'}"></td>
                         <td><span th:text="${hotel.vote}"></span><i style="margin-left: 2px"
                                                                     class="anticon anticon-star"></i></td>
-                        <!--            <td th:text="${hotel.vote}"></td>-->
                         <td th:text="${hotel.city.name}"></td>
                         <!--            <td th:text="${hotel.hotel_type.name}"></td>-->
-                        <td>name</td>
+                        <td th:text="${hotel.hotel_type.name}"></td>
+                        <td th:if="${hotel.active} == true">
+                            <div class="d-flex align-items-center">
+                                <div class="badge badge-success badge-dot m-r-10"></div>
+                                <div>Active</div>
+                            </div>
+                        </td>
+                        <td th:if="${hotel.active} == false">
+                            <div class="d-flex align-items-center">
+                                <div class="badge badge-danger badge-dot m-r-10"></div>
+                                <div>Disable</div>
+                            </div>
+                        </td>
                         <td>
                             <a th:href="@{/admin-hotel/edit/{id}(id=${hotel.id})}" title="Edit"
                                class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">

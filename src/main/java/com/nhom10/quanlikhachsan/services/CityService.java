@@ -1,11 +1,17 @@
 package com.nhom10.quanlikhachsan.services;
 
+import com.nhom10.quanlikhachsan.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.repository.ICityRepository;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,14 +28,28 @@ public class CityService {
         Optional<City> optional = cityRepository.findById(id);
         return optional.orElse(null);
     }
-    public void addCity(City city){
+    public void addCity(City city, MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        city.setImage(fileName);
+        city.setActive(true);
+        City savedCity  = cityRepository.save(city);
+        String upLoadDir = "city-images/" + savedCity.getId();
+        FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
         cityRepository.save(city);
     }
-    //addCity2 trả về kiểu City ,hàm này để dùng trong upload image
-    public City addCity2(City city){
-        return cityRepository.save(city);
-    }
-    public void updateCity(City city){
+
+    public void updateCity(@NotNull City city, MultipartFile multipartFile) throws IOException {
+        City existingCity = cityRepository.findById(city.getId()).orElse(null);
+        Objects.requireNonNull(existingCity).setName(city.getName());
+        existingCity.setDescription(city.getDescription());
+        existingCity.setActive(city.getActive());
+
+        if(multipartFile != null && !multipartFile.isEmpty()){
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            city.setImage(fileName);
+            String upLoadDir = "city-images/" + city.getId();
+            FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
+        }
         cityRepository.save(city);
     }
     public void deleteCity(Long id){

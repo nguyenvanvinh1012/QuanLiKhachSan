@@ -13,7 +13,7 @@
     <div class="header-sub-title">
       <nav class="breadcrumb breadcrumb-dash">
         <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-        <a href="/admin-city" class="breadcrumb-item">Hotel list</a>
+        <a href="/admin-hotel" class="breadcrumb-item">Hotel list</a>
         <span class="breadcrumb-item active">Add hotel</span>
       </nav>
     </div>
@@ -46,7 +46,7 @@
           </div>
           <div class="form-group">
             <label class="font-weight-semibold" for="description">Description</label>
-            <textarea th:field="*{description}" class="form-control" id="description" placeholder="Description"></textarea>
+            <textarea style="height: 200px" th:field="*{description}" class="form-control" id="description" placeholder="Description"></textarea>
           </div>
           <div class="form-group">
             <label class="font-weight-semibold" for="city">Meal:</label>
@@ -83,6 +83,13 @@
           <div class="form-group">
             <label class="font-weight-semibold" for="image4">Image 4</label>
             <input required type="file" name="image4" class="form-control" id="image4" placeholder="Image">
+          </div>
+          <div class="form-group">
+            <label class="font-weight-semibold" for="city">Hotel type:</label>
+            <select class="custom-select" id="hotel-type" name="hotel_type.id">
+              <option th:each="hotel_type :${list_type_hotel}" th:value="${hotel_type.id}"
+                      th:text="${hotel_type.name}"></option>
+            </select>
           </div>
           <div class="form-group">
             <label class="font-weight-semibold" for="city">City:</label>

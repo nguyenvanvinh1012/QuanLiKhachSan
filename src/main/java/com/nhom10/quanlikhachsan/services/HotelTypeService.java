@@ -12,7 +12,7 @@ import java.util.Optional;
 public class HotelTypeService {
     @Autowired
     private IHotelTypeRepository hotelTypeRepository;
-    public List<HotelType> getAllCities(){
+    public List<HotelType> getAllHotelType(){
         return hotelTypeRepository.findAll();
     }
     public HotelType getHotelTypeById(Long id){

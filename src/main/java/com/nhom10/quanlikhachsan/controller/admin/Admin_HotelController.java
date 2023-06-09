@@ -5,6 +5,7 @@ import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.services.CityService;
 import com.nhom10.quanlikhachsan.services.HotelService;
+import com.nhom10.quanlikhachsan.services.HotelTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,8 @@ public class Admin_HotelController {
     private HotelService hotelService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private HotelTypeService hotelTypeService;
 
     @GetMapping("")
     public String index(Model model) {
@@ -35,6 +38,7 @@ public class Admin_HotelController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("list_city", cityService.getAllCities());
+        model.addAttribute("list_type_hotel",hotelTypeService.getAllHotelType());
         model.addAttribute("hotel", new Hotel());
         return "admin/hotel/add";
     }
@@ -49,29 +53,7 @@ public class Admin_HotelController {
                            @RequestParam("image4") MultipartFile multipartFile4,
                            RedirectAttributes redirectAttributes) throws IOException {
 
-        String fileName1 = StringUtils.cleanPath(multipartFile1.getOriginalFilename());
-        hotel.setImg1(fileName1);
-        hotel.setActive(true);
-        hotel.setVote(vote);
-        hotel.setMeal(meal);
-        Hotel savedHotel = hotelService.addHotel2(hotel);
-        String upLoadDir1 = "hotel-images/" + savedHotel.getId();
-        FileUploadUtil.saveFile(upLoadDir1, fileName1, multipartFile1);
-
-        String fileName2 = StringUtils.cleanPath(multipartFile2.getOriginalFilename());
-        hotel.setImg2(fileName2);
-        String upLoadDir2 = "hotel-images/" + savedHotel.getId();
-        FileUploadUtil.saveFile(upLoadDir2, fileName2, multipartFile2);
-
-        String fileName3 = StringUtils.cleanPath(multipartFile3.getOriginalFilename());
-        hotel.setImg3(fileName3);
-        String upLoadDir3 = "hotel-images/" + savedHotel.getId();
-        FileUploadUtil.saveFile(upLoadDir3, fileName3, multipartFile3);
-
-        String fileName4 = StringUtils.cleanPath(multipartFile4.getOriginalFilename());
-        hotel.setImg4(fileName4);
-        String upLoadDir4 = "hotel-images/" + savedHotel.getId();
-        FileUploadUtil.saveFile(upLoadDir4, fileName4, multipartFile4);
+        hotelService.addHotel(hotel, vote, meal, multipartFile1,multipartFile2,multipartFile3,multipartFile4);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin-hotel";
     }
@@ -86,6 +68,7 @@ public class Admin_HotelController {
         if(editHotel != null){
             model.addAttribute("hotel", editHotel);
             model.addAttribute("list_city", cityService.getAllCities());
+            model.addAttribute("list_type_hotel",hotelTypeService.getAllHotelType());
             return "admin/hotel/edit";
         }else {
             return "not-found";
@@ -101,46 +84,8 @@ public class Admin_HotelController {
                        @RequestParam("image4") MultipartFile multipartFile4,
                        RedirectAttributes redirectAttributes)throws IOException{
 
-        Hotel hotel = hotelService.getHotelById(updateHotel.getId());
-        hotel.setName(updateHotel.getName());
-        hotel.setDescription(updateHotel.getDescription());
-        hotel.setActive(updateHotel.getActive());
-        hotel.setAddress(updateHotel.getAddress());
-        hotel.setCenter(updateHotel.getCenter());
-        hotel.setPhone(updateHotel.getPhone());
-        hotel.setBordering_sea(updateHotel.getBordering_sea());
-        hotel.setCity(updateHotel.getCity());
-        if(vote != 0)
-            hotel.setVote(vote);
-        if(meal != 6)
-            hotel.setMeal(meal);
 
-        if(multipartFile1 != null && !multipartFile1.isEmpty()){
-            String fileName1 = StringUtils.cleanPath(multipartFile1.getOriginalFilename());
-            hotel.setImg1(fileName1);
-            String upLoadDir = "hotel-images/" + hotel.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName1, multipartFile1);
-        }
-        if(multipartFile2 != null && !multipartFile2.isEmpty()){
-            String fileName2 = StringUtils.cleanPath(multipartFile2.getOriginalFilename());
-            hotel.setImg2(fileName2);
-            String upLoadDir = "hotel-images/" + hotel.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName2, multipartFile2);
-        }
-        if(multipartFile3 != null && !multipartFile3.isEmpty()){
-            String fileName3 = StringUtils.cleanPath(multipartFile3.getOriginalFilename());
-            hotel.setImg3(fileName3);
-            String upLoadDir = "hotel-images/" + hotel.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName3, multipartFile3);
-        }
-        if(multipartFile4 != null && !multipartFile4.isEmpty()){
-            String fileName4 = StringUtils.cleanPath(multipartFile4.getOriginalFilename());
-            hotel.setImg4(fileName4);
-            String upLoadDir = "hotel-images/" + hotel.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName4, multipartFile4);
-        }
-
-        hotelService.updateCity(hotel);
+        hotelService.updateHotel(updateHotel, vote, meal, multipartFile1, multipartFile2, multipartFile3, multipartFile4);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin-hotel";
     }
