@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate="~{layouts/admin_layout}"
+       lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit role</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="page-header">
+    <div class="header-sub-title">
+      <nav class="breadcrumb breadcrumb-dash">
+        <a href="/admin" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+        <a href="/admin-account" class="breadcrumb-item">List of accounts</a>
+        <span class="breadcrumb-item active">Edit account</span>
+      </nav>
+    </div>
+  </div>
+  <div class="tab-content m-t-15">
+    <div class="tab-pane fade show active" id="product-edit-basic" >
+      <div class="card">
+        <form th:action="@{/admin-account/edit}" th:object="${account}"
+              method="post" enctype="multipart/form-data" class="card-body">
+          <input type="hidden" th:field="*{id}">
+          <div class="form-group" >
+            <label class="font-weight-semibold" >Account Name</label></br>
+            <div th:text="*{username}" style="margin-left: 25px;"></div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-semibold" >Full Name</label>
+            <div th:text="*{full_name}" style="margin-left: 25px;"></div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-semibold" >Phone</label>
+            <div th:text="*{phone}" style="margin-left: 25px;"></div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-semibold" >Email</label>
+            <div th:text="*{email}" style="margin-left: 25px;"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="font-weight-semibold" for="active">Active</label>
+            <input style="width: 20px; height: 20px; margin-left: 7px ;cursor: pointer;"
+                   type="checkbox" th:field="*{active}" class="form-control" id="active" placeholder="Active">
+          </div>
+          <input type="submit" class="btn btn-primary" value="Save">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

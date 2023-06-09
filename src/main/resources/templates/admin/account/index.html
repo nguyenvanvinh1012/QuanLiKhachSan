@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin_layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>accounts Manager</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="/acount" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <span class="breadcrumb-item active">List of accounts</span>
+            </nav>
+        </div>
+    </div>
+    <span class="d-none" id="messageSuccess" th:text="${message}"></span>
+    <div class="card">
+        <div class="card-body">
+            <div class="row m-b-30">
+                <div class="col-md-8">
+                    <div class="row">
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="input-affix m-v-10">-->
+<!--                                <i class="prefix-icon anticon anticon-search opacity-04"></i>-->
+<!--                                <input id="keyword" name="keyword" type="text" class="form-control"-->
+<!--                                       placeholder="Tìm thành phố ">-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <a th:href="@{/admin-account/add}" class="btn btn-primary"><i
+                            class="anticon anticon-plus-circle m-r-5"></i><span>Add account</span></a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover e-commerce-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Account name</th>
+                        <th>Full name</th>
+                        <th>Phone number</th>
+                        <th>Email</th>
+                        <th>Active</th>
+                    </tr>
+                    </thead>
+                    <tbody id="records_table">
+                    <tr th:each="account : ${list_account}">
+                        <td th:text="${account.id}"></td>
+                        <td th:text="${account.username}"></td>
+                        <td>
+                            <div class="d-flex align-items-center">
+<!--                                <img class="img-fluid rounded" th:src="@{${city.imagesPath}}" style="max-width: 60px" alt="">-->
+                                <h6 class="m-b-0 m-l-10" th:text="${account.full_name}"></h6>
+                            </div>
+                        </td>
+                        <td th:text="${account.phone}"></td>
+                        <td th:text="${account.email}"></td>
+
+                        <td th:if="${account.active} == true">
+                            <div class="d-flex align-items-center">
+                                <div class="badge badge-success badge-dot m-r-10"></div>
+                                <div>Active</div>
+                            </div>
+                        </td>
+                        <td th:if="${account.active} == false">
+                            <div class="d-flex align-items-center">
+                                <div class="badge badge-danger badge-dot m-r-10"></div>
+                                <div>Disable</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin-account/edit/{id}(id=${account.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                <i class="anticon anticon-edit"></i></a>
+                            <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                <i class="anticon anticon-delete"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var message = $('#messageSuccess').text();
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+            }
+            if (message !== '') {
+                toastr.success(message);
+            }
+        });
+    </script>
+</div>
+</body>
+</html>
