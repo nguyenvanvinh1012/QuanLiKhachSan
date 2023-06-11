@@ -37,12 +37,14 @@
                                     <div class="d-block d-md-flex flex-horizontal-center mb-1">
                                         <h4 class="font-weight-bold mb-0 mr-2" th:text="${hotel.name}"></h4>
                                         <div class="rating">
-                                            <span style="margin-right: 3px" th:each="vote: ${#numbers.sequence(1, hotel.vote)}"
+                                            <span style="margin-right: 3px"
+                                                  th:each="vote: ${#numbers.sequence(1, hotel.vote)}"
                                                   class="fa fa-star checked"></span>
                                         </div>
                                     </div>
                                     <p class="mb-0">
-                                        <i class="fa fa-map-marker-alt mr-2"></i> <span th:text="${hotel.address}"></span>
+                                        <i class="fa fa-map-marker-alt mr-2"></i> <span
+                                            th:text="${hotel.address}"></span>
                                         <a href="#"> - View on map</a>
                                     </p>
                                 </div>
@@ -142,80 +144,70 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                            <div class="description-inner">-->
-                            <!--                                <h4>Select your room</h4>-->
-                            <!--                                @if (DSPhong.Count > 0)-->
-                            <!--                                {-->
-                            <!--                                foreach (var item in DSPhong)-->
-                            <!--                                {-->
-                            <!--                                <div class="product-item__outer w-100 border p-4 mb-2">-->
-                            <!--                                    <div class="row d-flex align-items-center justify-content-between">-->
-                            <!--                                        <div class="col-md-4 col-lg-4">-->
-                            <!--                                            <div class="product-item__header">-->
-                            <!--                                                <img class="img-fluid w-100" src="@item.UrlHinhAnh"-->
-                            <!--                                                     alt="Image Description">-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                        <div class="col-md-5 col-lg-5">-->
-                            <!--                                            <div class="rooms-content py-2">-->
-                            <!--                                                <h5 class="mb-1">-->
-                            <!--                                                    <a href="#" class="font-weight-bold">-->
-                            <!--                                                        @item.Ten-->
-                            <!--                                                    </a>-->
-                            <!--                                                </h5>-->
-                            <!--                                                <div class="row">-->
-                            <!--                                                    <div class="col-lg-6 col-md-6 mb-1">-->
-                            <!--                                                        <i class="fa fa-wifi"></i> Free-->
-                            <!--                                                        Wi-Fi-->
-                            <!--                                                    </div>-->
-                            <!--                                                    <div class="col-lg-6 col-md-6 mb-1">-->
-                            <!--                                                        <i class="fa fa-vector-square"></i> @item.DienTich m²-->
-                            <!--                                                    </div>-->
-                            <!--                                                    @if (item.LoaiGiuong == 1)-->
-                            <!--                                                    {-->
-                            <!--                                                    <div class="col-lg-6 col-md-6 mb-1">-->
-                            <!--                                                        <i class="fa fa-bed"></i> 1-->
-                            <!--                                                        single beds-->
-                            <!--                                                    </div>-->
-                            <!--                                                    }-->
-                            <!--                                                    else-->
-                            <!--                                                    {-->
-                            <!--                                                    <div class="col-lg-6 col-md-6 mb-1">-->
-                            <!--                                                        <i class="fa fa-bed"></i> 2-->
-                            <!--                                                        single beds-->
-                            <!--                                                    </div>-->
-                            <!--                                                    }-->
-
-                            <!--                                                    <div class="col-lg-6 col-md-6 mb-1">-->
-                            <!--                                                        <i class="fa fa-shower"></i>-->
-                            <!--                                                        Shower-->
-                            <!--                                                    </div>-->
-                            <!--                                                    <div class="col-lg-12">-->
-                            <!--                                                        <a href="#"-->
-                            <!--                                                           class="text-underline font-size-14">-->
-                            <!--                                                            Room photos and-->
-                            <!--                                                            details-->
-                            <!--                                                        </a>-->
-                            <!--                                                    </div>-->
-                            <!--                                                </div>-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                        <div class="col-md-3 col-lg-3">-->
-                            <!--                                            <div class="rooms-pricing text-center">-->
-                            <!--                                                <p class="mb-1">-->
-                            <!--                                                    From <span class="font-weight-bold ml-1">@item.GiaThue.Value.ToString("#,##0") VNĐ</span>-->
-                            <!--                                                    <span> / night</span>-->
-                            <!--                                                </p>-->
-                            <!--                                                <a href="@Url.Action(" Confirm", "KhachSan",new { id = item.Id })"-->
-                            <!--                                                class="nir-btn w-100">Book now</a>-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                }-->
-                            <!--                                }-->
-
-                            <!--                            </div>-->
+                            <div class="description-inner">
+                                <h4>Select your room</h4>
+                                <div th:unless="count_room == 0">
+                                    <div th:each="room : ${list_room}"
+                                         class="product-item__outer w-100 border p-4 mb-2">
+                                        <div class="row d-flex align-items-center justify-content-between">
+                                            <div class="col-md-4 col-lg-4">
+                                                <div class="product-item__header">
+                                                    <img class="img-fluid w-100" th:src="@{${room.imagesPath}}"
+                                                         alt="Image Description">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 col-lg-5">
+                                                <div class="rooms-content py-2">
+                                                    <h5 class="mb-1">
+                                                        <a href="#" class="font-weight-bold" th:text="${room.name}">
+                                                        </a>
+                                                    </h5>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 mb-1">
+                                                            <i class="fa fa-wifi"></i> Free
+                                                            Wi-Fi
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 mb-1">
+                                                            <i class="fa fa-vector-square"></i> <span th:text="${room.area}"></span> m²
+                                                        </div>
+                                                        <div th:if="${room.bed_type == 1}"
+                                                             class="col-lg-6 col-md-6 mb-1">
+                                                            <i class="fa fa-bed"></i> 1
+                                                            single beds
+                                                        </div>
+                                                        <div th:if="${room.bed_type == 2}"
+                                                             class="col-lg-6 col-md-6 mb-1">
+                                                            <i class="fa fa-bed"></i> 2
+                                                            single beds
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 mb-1">
+                                                            <i class="fa fa-shower"></i>
+                                                            Shower
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <a href="#"
+                                                               class="text-underline font-size-14">
+                                                                Room photos and
+                                                                details
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3">
+                                                <div class="rooms-pricing text-center">
+                                                    <p class="mb-1">
+                                                        From <span class="font-weight-bold ml-1"><span th:text="${#numbers.formatDecimal(room.rent, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</span>
+                                                        <span> / night</span>
+                                                    </p>
+                                                    <a href=""
+                                                       class="nir-btn w-100">Book now</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="single-map mb-4" id="single-map">
                             <h4>Map</h4>
@@ -331,8 +323,8 @@
 
                         <div class="single-add-review" id="single-add-review">
                             <h4>Write a Review</h4>
-<!--                            @using (Html.BeginForm("Comment", "KhachSan"))-->
-<!--                            {-->
+                            <!--                            @using (Html.BeginForm("Comment", "KhachSan"))-->
+                            <!--                            {-->
                             <div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -368,7 +360,7 @@
                                     </div>
                                 </div>
                             </div>
-<!--                            }-->
+                            <!--                            }-->
                         </div>
                     </div>
                 </div>
@@ -462,10 +454,6 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group mb-0">
-                                            <!--                                            @*<a class="nir-btn w-100">-->
-                                            <!--                                            <i class="fa fa-search"></i> Check-->
-                                            <!--                                            Availability-->
-                                            <!--                                        </a>*@-->
                                             <button style="border: none" value="submit" class="nir-btn w-100">
                                                 <i class="fa fa-search"></i> Check
                                                 Availability

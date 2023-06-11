@@ -4,6 +4,8 @@ import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.services.CityService;
 import com.nhom10.quanlikhachsan.services.HotelService;
+import com.nhom10.quanlikhachsan.services.HotelTypeService;
+import com.nhom10.quanlikhachsan.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,8 @@ public class HotelController {
     @Autowired
     private HotelService hotelService;
     @Autowired
+    private RoomService roomService;
+    @Autowired
     private CityService cityService;
     @GetMapping("/{id}")
     public String List_hotel(@PathVariable("id") Long id, Model model){
@@ -46,6 +50,9 @@ public class HotelController {
     }
     @GetMapping("/detail/{id}")
     public String Hotel_detail(@PathVariable("id") Long id, Model model){
+        model.addAttribute("list_room", roomService.getAllRoomByHotelId(id));
+        Long test = roomService.countRoomsByHotelId(id);
+        model.addAttribute("count_room", roomService.countRoomsByHotelId(id));
         model.addAttribute("hotel", hotelService.getHotelById(id));
         return "user/hotel/detail";
     }

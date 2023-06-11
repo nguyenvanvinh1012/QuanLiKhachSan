@@ -61,8 +61,10 @@
                                 <h6 class="m-b-0 m-l-10" th:text="${room.name}"></h6>
                             </div>
                         </td>
-                        <td th:text="${room.area}"></td>
-                        <td th:text="${room.rent}"></td>
+                        <td th:text="${room.area}">
+
+                        </td>
+                        <td><span th:text="${#numbers.formatDecimal(room.rent, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</td>
                         <td th:text="${room.convenient}"></td>
                         <td th:text="${room.description}"></td>
                         <td th:if="${room.bed_type == 1}">Giường đơn</td>

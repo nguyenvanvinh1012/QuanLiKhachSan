@@ -15,6 +15,12 @@ public class RoomService {
     public List<Room> getAllRoom(){
         return roomRepository.findAll();
     }
+    public List<Room> getAllRoomByHotelId(Long id) {
+        return roomRepository.findAllByRoomIdHotel(id);
+    }
+    public Long countRoomsByHotelId(Long id){
+        return roomRepository.countRoomsByHotelId(id);
+    }
     public Room getRoomById(Long id){
         Optional<Room> optional = roomRepository.findById(id);
         return optional.orElse(null);
