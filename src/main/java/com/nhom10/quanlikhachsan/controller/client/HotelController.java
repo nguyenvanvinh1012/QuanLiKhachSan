@@ -2,6 +2,7 @@ package com.nhom10.quanlikhachsan.controller.client;
 
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.entity.Hotel;
+import com.nhom10.quanlikhachsan.entity.Room;
 import com.nhom10.quanlikhachsan.services.CityService;
 import com.nhom10.quanlikhachsan.services.HotelService;
 import com.nhom10.quanlikhachsan.services.HotelTypeService;
@@ -46,7 +47,7 @@ public class HotelController {
         model.addAttribute("city_name", city.getName());
         model.addAttribute("count_hotel", hotelService.countHotelByCityId(id) + 462);
         model.addAttribute("list_hotel", hotelService.getAllHotelActiveIdCity(id));
-        return "user/hotel/index";
+        return "client/hotel/index";
     }
     @GetMapping("/detail/{id}")
     public String Hotel_detail(@PathVariable("id") Long id, Model model){
@@ -54,6 +55,17 @@ public class HotelController {
         Long test = roomService.countRoomsByHotelId(id);
         model.addAttribute("count_room", roomService.countRoomsByHotelId(id));
         model.addAttribute("hotel", hotelService.getHotelById(id));
-        return "user/hotel/detail";
+        return "client/hotel/detail";
+    }
+    @GetMapping("/confirm/{id}")
+    public String Confirm_info(@PathVariable("id") Long id, Model model){
+        //ngay den/ngay di -> session -> tong tien
+        //thong tin user -> chua co
+        Room room = roomService.getRoomById(id);
+        Hotel hotel = hotelService.getHotelByIdRoom(room.getHotel().getId());
+        City city = cityService.getCityByIdHotel(hotel.getCity().getId());
+        model.addAttribute("city_name", city.getName());
+        model.addAttribute("room", room);
+        return "client/hotel/confirm";
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping ("/admin-bookRoom")
+@RequestMapping ("/admin/bookRoom")
 public class Admin_BookRoomController {
     @Autowired
     private BookRoomService bookRoomService;

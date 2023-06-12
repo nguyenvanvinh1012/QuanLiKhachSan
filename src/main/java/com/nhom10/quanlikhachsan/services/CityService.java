@@ -1,6 +1,6 @@
 package com.nhom10.quanlikhachsan.services;
 
-import com.nhom10.quanlikhachsan.FileUploadUtil;
+import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.repository.ICityRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
@@ -27,6 +27,9 @@ public class CityService {
     public City getCityById(Long id){
         Optional<City> optional = cityRepository.findById(id);
         return optional.orElse(null);
+    }
+    public City getCityByIdHotel(Long id){
+        return cityRepository.findCitylByIdHotel(id);
     }
     public void addCity(City city, MultipartFile multipartFile) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());

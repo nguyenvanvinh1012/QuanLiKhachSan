@@ -14,4 +14,6 @@ public interface IHotelRepository extends JpaRepository<Hotel, Long> {
     List<Hotel> findAllByActiveIdCity(@Param("id") Long id);
     @Query("SELECT COUNT(h) FROM Hotel h WHERE h.active and h.city.id = :cityId")
     Long countHotelsByCityId(@Param("cityId") Long cityId);
+    @Query("select h from Hotel h where h.id = :id")
+    Hotel findHotelByIdRoom(@Param("id") Long id);
 }

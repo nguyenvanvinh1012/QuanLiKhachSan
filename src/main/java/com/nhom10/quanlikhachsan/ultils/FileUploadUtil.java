@@ -1,4 +1,4 @@
-package com.nhom10.quanlikhachsan;
+package com.nhom10.quanlikhachsan.ultils;
 
 import org.springframework.web.multipart.MultipartFile;
 

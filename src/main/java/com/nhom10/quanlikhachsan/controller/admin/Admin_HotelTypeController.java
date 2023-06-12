@@ -1,6 +1,6 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 
-import com.nhom10.quanlikhachsan.FileUploadUtil;
+import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.HotelType;
 import com.nhom10.quanlikhachsan.services.HotelTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/admin-hotelType")
+@RequestMapping("/admin/hotelType")
 public class Admin_HotelTypeController {
     @Autowired
     private HotelTypeService hotelTypeService;
@@ -42,7 +42,7 @@ public class Admin_HotelTypeController {
         HotelType savedhotelType  = hotelTypeService.addHotelType2(hotelType);
         String upLoadDir = "hotelType-images/" + savedhotelType.getId();
         FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        return "redirect:/admin-hotelType";
+        return "redirect:/admin/hotelType";
     }
 
     @GetMapping("/edit/{id}")
@@ -78,6 +78,6 @@ public class Admin_HotelTypeController {
         }
         hotelTypeService.updateHotelType(hotelType);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin-hotelType";
+        return "redirect:/admin/hotelType";
     }
 }

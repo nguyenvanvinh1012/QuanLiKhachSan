@@ -1,7 +1,6 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 
-import com.nhom10.quanlikhachsan.FileUploadUtil;
-import com.nhom10.quanlikhachsan.entity.Hotel;
+import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.Room;
 import com.nhom10.quanlikhachsan.services.HotelService;
 import com.nhom10.quanlikhachsan.services.RoomService;
@@ -16,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/admin-room")
+@RequestMapping("/admin/room")
 public class Admin_RoomController {
     @Autowired
     private RoomService roomService;
@@ -46,7 +45,7 @@ public class Admin_RoomController {
         Room savedroom  = roomService.addRoom2(room);
         String upLoadDir = "room-images/" + savedroom.getId();
         FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        return "redirect:/admin-room";
+        return "redirect:/admin/room";
     }
 
     @GetMapping("/edit/{id}")
@@ -87,6 +86,6 @@ public class Admin_RoomController {
         }
         roomService.updateRoom(room);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin-room";
+        return "redirect:/admin/room";
     }
 }

@@ -1,12 +1,11 @@
 package com.nhom10.quanlikhachsan.services;
 
-import com.nhom10.quanlikhachsan.FileUploadUtil;
-import com.nhom10.quanlikhachsan.entity.City;
+import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.Hotel;
-import com.nhom10.quanlikhachsan.repository.ICityRepository;
 import com.nhom10.quanlikhachsan.repository.IHotelRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +24,9 @@ public class HotelService {
     }
     public List<Hotel> getAllHotelActiveIdCity(Long id){
         return hotelRepository.findAllByActiveIdCity(id);
+    }
+    public Hotel getHotelByIdRoom(Long id){
+        return hotelRepository.findHotelByIdRoom(id);
     }
     public Long countHotelByCityId(Long id){
         return hotelRepository.countHotelsByCityId(id);

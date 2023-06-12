@@ -25,7 +25,7 @@ public class HomeController {
         model.addAttribute("DaNang",DNCity);
         model.addAttribute("Hue",HueCity);
         model.addAttribute("HoiAn",HoiAnCity);
-        return "user/home/index";
+        return "client/home/index";
     }
 }
 

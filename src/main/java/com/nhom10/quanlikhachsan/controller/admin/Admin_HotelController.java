@@ -1,7 +1,5 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 
-import com.nhom10.quanlikhachsan.FileUploadUtil;
-import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.services.CityService;
 import com.nhom10.quanlikhachsan.services.HotelService;
@@ -9,7 +7,6 @@ import com.nhom10.quanlikhachsan.services.HotelTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/admin-hotel")
+@RequestMapping("/admin/hotel")
 public class Admin_HotelController {
     @Autowired
     private HotelService hotelService;
@@ -55,7 +52,7 @@ public class Admin_HotelController {
 
         hotelService.addHotel(hotel, vote, meal, multipartFile1,multipartFile2,multipartFile3,multipartFile4);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin-hotel";
+        return "redirect:/admin/hotel";
     }
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, Model model) {
@@ -87,6 +84,6 @@ public class Admin_HotelController {
 
         hotelService.updateHotel(updateHotel, vote, meal, multipartFile1, multipartFile2, multipartFile3, multipartFile4);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin-hotel";
+        return "redirect:/admin/hotel";
     }
 }

@@ -200,7 +200,7 @@
                                                         From <span class="font-weight-bold ml-1"><span th:text="${#numbers.formatDecimal(room.rent, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</span>
                                                         <span> / night</span>
                                                     </p>
-                                                    <a href=""
+                                                    <a th:href="@{/hotel/confirm/{id}(id=${room.id})}"
                                                        class="nir-btn w-100">Book now</a>
                                                 </div>
                                             </div>

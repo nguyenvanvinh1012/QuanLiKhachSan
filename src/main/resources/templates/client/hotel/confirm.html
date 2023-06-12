@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user_layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <section class="breadcrumb-main pb-0" style="background-image: url(/images/bg/bg8.jpg);">
+        <div class="breadcrumb-outer pt-10">
+            <div class="container">
+                <div class="breadcrumb-content d-md-flex align-items-center pt-10">
+                    <h2 class="mb-0"></h2>
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="dot-overlay"></div>
+    </section>
+
+
+    <section class="blog trending destination-b pb-6">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-xs-12 mb-4">
+                    <div class="payment-book">
+                        <div class="description flight-book mb-4">
+                            <div class="detail-title"><h3>YOUR INFORMATION</h3></div>
+                            <div class="description-content">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Full name:</label>
+                                        <p class="form-control">Full name ...</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email:</label>
+                                        <p class="form-control">Email ...</p>
+                                    </div>
+                                    <div class="form-group col-left-padding">
+                                        <label>Phone number:</label>
+                                        <p class="form-control">Phone number ...</p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="comment-btn mb-4">
+                            <a href="#" class="nir-btn">Select a payment method</a>
+                        </div>
+                        <div class="description detail-box mb-4">
+                            <div class="booking-box">
+                                <div class="booking-border mb-2 bg-lgrey p-4">
+                                    <a href="#" data-toggle="modal" data-target="#pay-on" style="font-weight: bold; font-size: 20px; margin-bottom:25px" class="border-b pb-2 mb-2">
+                                        Online payment with momo
+                                        <img style="width: 28px; border-radius: 3px; margin-left: 5px" th:src="@{/images/momo.png}" />
+                                    </a>
+                                    <p style="margin-top: 20px">This is the third time I've used Travelo Website and telling you the truth their services are always reliable and it ony takes few minutes to plan and finalize.</p>
+                                </div>
+                                <div class="booking-border mb-2 bg-lgrey p-4">
+                                    <a href="#" data-toggle="modal" data-target="#pay-off" style="font-weight: bold; font-size: 20px; margin-bottom:25px" class="border-b pb-2 mb-2">
+                                        Pay at check-in
+                                    </a>
+                                    <p style="margin-top: 20px">This is the third time I've used Travelo Website and telling you the truth their services are always reliable and it ony takes few minutes to plan and finalize.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                *Modal*-->
+                <div class="modal fade" id="pay-off" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bordernone p-0">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-0">
+                                <div class="login-content p-4 text-center">
+                                    <div class="login-title section-border">
+                                        <h3 style="text-align:left" class="pink">Are you sure?</h3>
+                                    </div>
+                                    <div class="login-form">
+                                        <form>
+                                            <div style="height: 60px; padding: 16px; border-top: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6; " class="form-group">
+                                                <p>Modal body text goes here.</p>
+                                            </div>
+                                        </form>
+                                        <div style="text-align:right" class="form-btn">
+                                            <a style="border-radius: 5px; background-color: #F56961" href="" class="nir-btn" data-dismiss="modal" aria-label="Close">Close</a>
+                                            <a style="border-radius: 5px" href="" class="nir-btn">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--               Modal-->
+                <div class="modal fade" id="pay-on" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bordernone p-0">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-0">
+                                <div class="login-content p-4 text-center">
+                                    <div class="login-title section-border">
+                                        <h3 style="text-align:left" class="pink">Are you sure?</h3>
+                                    </div>
+                                    <div class="login-form">
+                                        <form>
+                                            <div style="height: 60px; padding: 16px; border-top: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6; " class="form-group">
+                                                <p>Modal body text goes here.</p>
+                                            </div>
+                                        </form>
+                                        <div style="text-align:right" class="form-btn">
+                                            <a style="border-radius: 5px; background-color: #F56961" href="" class="nir-btn" data-dismiss="modal" aria-label="Close">Close</a>
+                                            <a style="border-radius: 5px" href="" class="nir-btn">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-12 mb-4">
+                    <div class="sidebar-sticky">
+                        <div th:object="${room}" class="sidebar-item mb-4">
+                            <div class="trend-item mb-0">
+                                <div class="trend-image">
+                                    <img th:src="@{${room.imagesPath}}" alt="image">
+                                    <div class="trend-tags">
+                                        <a href="#"><i class="flaticon-like"></i></a>
+                                    </div>
+                                </div>
+                                <div class="trend-content-main">
+                                    <div class="trend-content">
+                                        <h4 class="mb-1 p-0 bordernone"><a href="#" class="" tabindex="0" th:text="${room.name}"></a></h4>
+                                        <p class="mb-0"><i class="fa fa-map-marker mr-2 grey"></i><span th:text="${city_name}"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-sidebar">
+                            <div class="sidebar-item">
+                                <h3>Booking details</h3>
+                                <ul class="list-unstyled font-size-1 mb-0 font-size-16">
+                                    <li class="d-flex justify-content-between py-1 border-b">
+                                        <span class="font-weight-medium">Date <br>NgayDen<br>NgayDi</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between py-1 border-b">
+                                        <span class="font-weight-medium">Giá thuê </span>
+                                        <span class="text-secondary">GiaThue VNĐ</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between py-1 border-b">
+                                        <span class="font-weight-medium">Tổng tiền</span>
+                                        <span class="text-secondary pink">VNĐ</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
