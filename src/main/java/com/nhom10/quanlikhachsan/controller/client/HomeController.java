@@ -3,6 +3,7 @@ package com.nhom10.quanlikhachsan.controller.client;
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class HomeController {
         model.addAttribute("DaNang",DNCity);
         model.addAttribute("Hue",HueCity);
         model.addAttribute("HoiAn",HoiAnCity);
+
         return "client/home/index";
     }
 }

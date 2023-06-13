@@ -89,6 +89,7 @@
                             </ul>
                         </div>
                         <div class="register-login">
+                            <a sec:authorize="isAuthenticated()"style="color:#0791be; margin-right: 7px">Hello, <span th:text="${#authentication.principal.getFullName()}"></span></a>
                             <a sec:authorize="!isAuthenticated()" href="/register" class="mr-2"><i class="icon-user mr-1"></i> Register</a>
                             <a sec:authorize="isAuthenticated()" href="/account" class="mr-2"><i class="icon-user mr-1"></i> Account</a>
                             <a sec:authorize="!isAuthenticated()" href="/login"><i class="icon-login mr-1"></i>

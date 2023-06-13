@@ -11,10 +11,12 @@ import java.util.Set;
 
 public class CustomUserDetail implements UserDetails {
     private User user;
+    private String fullName;
     private final IUserRepository userRepository;
-    public CustomUserDetail(User user,  IUserRepository userRepository){
+    public CustomUserDetail(User user,  IUserRepository userRepository, String fullName){
         this.user = user;
         this.userRepository = userRepository;
+        this.fullName = fullName;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,6 +26,9 @@ public class CustomUserDetail implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(role));
         }
         return authorities;
+    }
+    public String getFullName(){
+        return fullName;
     }
 
     @Override

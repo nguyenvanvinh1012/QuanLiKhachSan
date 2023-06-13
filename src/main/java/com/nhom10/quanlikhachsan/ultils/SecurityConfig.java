@@ -1,8 +1,10 @@
 package com.nhom10.quanlikhachsan.ultils;
 
+import com.nhom10.quanlikhachsan.entity.CustomUserDetail;
 import com.nhom10.quanlikhachsan.services.CustomUserDetailService;
 import com.nhom10.quanlikhachsan.services.OAuthService;
 import com.nhom10.quanlikhachsan.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +56,8 @@ public class SecurityConfig {
 
                         .requestMatchers("/admin/**")
                         .hasAnyAuthority("ADMIN")
+                        .requestMatchers("/admin/account")
+                        .hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/**")
 
                         .authenticated()
@@ -71,8 +75,16 @@ public class SecurityConfig {
                 .formLogin(formLogin ->
                         formLogin.loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/")
                                 .failureUrl("/login?error=true")
+                                .successHandler((request, response, authentication) -> {
+                                    var userDetails = (CustomUserDetail) authentication.getPrincipal();
+                                    // Xóa session cũ
+                                    request.getSession().invalidate();
+                                    // Lưu thông tin người dùng vào session
+                                    HttpSession session = request.getSession();
+                                    session.setAttribute("userName", userDetails.getUsername());
+                                })
+                                .defaultSuccessUrl("/")
                                 .permitAll()
                 ).oauth2Login(
                         oauth2Login -> oauth2Login.loginPage("/login")

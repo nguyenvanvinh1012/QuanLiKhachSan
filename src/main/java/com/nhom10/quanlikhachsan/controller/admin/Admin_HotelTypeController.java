@@ -35,13 +35,15 @@ public class Admin_HotelTypeController {
 
     @PostMapping("/add")
     public String addHotelType(@ModelAttribute("hotelType") HotelType hotelType,
-                          @RequestParam("img") MultipartFile multipartFile) throws IOException {
+                               @RequestParam("img") MultipartFile multipartFile,
+                               RedirectAttributes redirectAttributes) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         hotelType.setImage(fileName);
         hotelType.setActive(true);
         HotelType savedhotelType  = hotelTypeService.addHotelType2(hotelType);
         String upLoadDir = "hotelType-images/" + savedhotelType.getId();
         FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
+        redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/hotelType";
     }
 
