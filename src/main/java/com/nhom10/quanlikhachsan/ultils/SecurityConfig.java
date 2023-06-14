@@ -43,20 +43,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(@NotNull
-                                                   HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/assets/**", "/cdn-cgi/**",
                                 "/fonts/**","/images/**" ,"/img/**"
                                 ,"/cdnjs.cloudflare.com/ajax/libs/font-awesome/**",
                                 "/city-images/**", "/hotel-images/**", "/hotelType-images/**", "/room-images/**"
-                                ,"/hotel/{id}", "/hotel/detail/{id}"
+                                ,"/hotel/{id}", "/hotel/detail/{id}","/search","/hotel/search2","/hotel/search-detail"
                                 ,"/", "/register", "/error")
                         .permitAll()
-
                         .requestMatchers("/admin/**")
-                        .hasAnyAuthority("ADMIN")
-                        .requestMatchers("/admin/account")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/**")
 
@@ -79,10 +75,10 @@ public class SecurityConfig {
                                 .successHandler((request, response, authentication) -> {
                                     var userDetails = (CustomUserDetail) authentication.getPrincipal();
                                     // Xóa session cũ
-                                    request.getSession().invalidate();
+//                                    request.getSession().invalidate();
                                     // Lưu thông tin người dùng vào session
-                                    HttpSession session = request.getSession();
-                                    session.setAttribute("userName", userDetails.getUsername());
+//                                    HttpSession session = request.getSession();
+//                                    session.setAttribute("userName", userDetails.getUsername());
                                 })
                                 .defaultSuccessUrl("/")
                                 .permitAll()

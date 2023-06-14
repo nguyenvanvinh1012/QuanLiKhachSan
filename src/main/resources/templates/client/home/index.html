@@ -9,7 +9,6 @@
 </head>
 <body>
 <div layout:fragment="content">
-
     <section class="banner overflow-hidden px-4">
         <div class="slider slider1">
             <div class="swiper-container">
@@ -72,7 +71,7 @@
                     </ul>
                 </div>
                 <div class="tab-content">
-                    <div id="hotel" class="tab-pane in active">
+                    <form th:action="@{/search}" method="post" id="hotel" class="tab-pane in active">
                         <div class="row d-flex align-items-center justify-content-between">
                             <div class="col-lg">
                                 <div class="form-group mb-0">
@@ -88,7 +87,6 @@
                                     <label>Check In</label>
                                     <div class="input-box">
                                         <i class="fa fa-calendar"></i>
-                                        <!--                                        @*id="date-range0"*@-->
                                         <input type="date" id="date" name="ngayden" required>
                                     </div>
                                 </div>
@@ -98,7 +96,6 @@
                                     <label>Check Out</label>
                                     <div class="input-box">
                                         <i class="fa fa-calendar"></i>
-                                        <!--                                        @*id="date-range1"*@-->
                                         <input type="date" id="date2" name="ngaydi" required>
                                     </div>
                                 </div>
@@ -128,7 +125,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -270,7 +267,6 @@
         </div>
     </section>
 
-
     <section class="counter-main pb-6 pt-10" style="margin-top: 100px ;background-image: url(/images/bg/bg4.jpg)">
         <div class="container">
             <div class="counter text-center">
@@ -309,14 +305,12 @@
         <div class="overlay"></div>
     </section>
 
-
     <div class="cta-horizon bg-navy pt-4 pb-4">
         <div class="container d-md-flex align-items-center justify-content-between">
             <h4 class="mb-0 white">It’s Time For a New Adventure! Don’t Wait Any Longer. Contact us!</h4>
             <a href="#" class="nir-btn">Fine More Destination</a>
         </div>
     </div>
-
 
     <section class="top-deals bg-grey pt-9">
         <div class="container">
@@ -385,6 +379,35 @@
             </div>
         </div>
     </section>
+    <script th:inline="javascript">
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        //document.getElementById("date").value = today;
+        document.getElementById("date").setAttribute("min", today);
+
+        var input1 = document.getElementById('date');
+        var input2 = document.getElementById('date2');
+
+        input1.addEventListener('change', function () {
+            var selectedDate = new Date(input1.value);
+            var nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000); // Tăng thêm 1 ngày
+
+
+            var day2 = nextDay.getDate();
+            var month2 = nextDay.getMonth() + 1;
+            var year2 = nextDay.getFullYear();
+            if (month2 < 10) month2 = "0" + month2;
+            if (day2 < 10) day2 = "0" + day2;
+            var formattedDate = year2 + "-" + month2 + "-" + day2;
+            //input2.value = formattedDate;
+            input2.setAttribute("min", formattedDate);
+        });
+    </script>
 </div>
 </body>
 </html>

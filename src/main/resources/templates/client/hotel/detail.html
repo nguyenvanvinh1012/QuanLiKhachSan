@@ -378,10 +378,8 @@
                                 <span class="ml-2"><strong class="pink">Excellent</strong> (38 Reviews)</span>
                             </div>
                         </div>
-                        <!--                        @using (Html.BeginForm("SearchDetail", "KhachSan"))-->
-                        <!--                        {-->
                         <div class="sidebar-item mb-4">
-                            <div class="form-content">
+                            <form th:action="@{/hotel/search-detail}" class="form-content">
                                 <h4 class="title white font-weight-normal">
                                     From <span class="font-weight-bold">£350.00</span> / night
                                 </h4>
@@ -390,17 +388,16 @@
                                         <div class="form-group">
                                             <label class="white">Check In</label>
                                             <div class="input-box">
-                                                <!--                                                @if (kt == true)-->
-                                                <!--                                                {-->
-                                                <!--                                                <input style="padding-left: 10px" type="date" min="" id="ngayden"-->
-                                                <!--                                                       name="ngayden" value="@ViewBag.ngayden.ToString(" yyyy-MM-dd")"-->
-                                                <!--                                                required>-->
-                                                <!--                                                }-->
-                                                <!--                                                else-->
-                                                <!--                                                {-->
-                                                <input style="padding-left: 10px" type="date" min="" id="ngayden"
-                                                       name="ngayden" required>
-                                                <!--                                                }-->
+                                                <div th:if="${checkin} != null">
+                                                    <input style="padding-left: 10px" type="date" th:id="${'ngayden'}"
+                                                           name="ngayden"
+                                                           th:value="${checkin.toString()}"
+                                                           required>
+                                                </div>
+                                                <div th:if="${checkin} == null">
+                                                    <input style="padding-left: 10px" type="date" th:id="${'ngayden'}"
+                                                           name="ngayden" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -408,17 +405,14 @@
                                         <div class="form-group">
                                             <label class="white">Check Out</label>
                                             <div class="input-box">
-                                                <!--                                                @if (kt == true)-->
-                                                <!--                                                {-->
-                                                <!--                                                <input style="padding-left: 10px" type="date" id="ngaydi" name="ngaydi"-->
-                                                <!--                                                       value="@ViewBag.ngaydi.ToString(" yyyy-MM-dd")" required>-->
-
-                                                <!--                                                }-->
-                                                <!--                                                else-->
-                                                <!--                                                {-->
-                                                <input style="padding-left: 10px" type="date" id="ngaydi" name="ngaydi"
-                                                       required>
-                                                <!--                                                }-->
+                                                <div th:if="${checkout} != null">
+                                                    <input style="padding-left: 10px" type="date" min="" th:id="${'ngaydi'}"
+                                                           name="ngaydi" th:value="${checkout.toString()}" required>
+                                                </div>
+                                                <div th:if="${checkout} == null">
+                                                    <input style="padding-left: 10px" type="date" min="" th:id="${'ngaydi'}"
+                                                           name="ngaydi" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -461,9 +455,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        <!--                        }-->
                         <div class="list-sidebar">
                             <div class="sidebar-item">
                                 <h3>Why Book With Us?</h3>
@@ -492,6 +485,34 @@
             </div>
         </div>
     </section>
+    <script th:inline="javascript">
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("ngayden").setAttribute("min", today);
+        debugger
+        var input1 = document.getElementById('ngayden');
+        var input2 = document.getElementById('ngaydi');
+
+        input1.addEventListener('change', function () {
+            var selectedDate = new Date(input1.value);
+            var nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000); // Tăng thêm 1 ngày
+
+            var day2 = nextDay.getDate();
+            var month2 = nextDay.getMonth() + 1;
+            var year2 = nextDay.getFullYear();
+            if (month2 < 10) month2 = "0" + month2;
+            if (day2 < 10) day2 = "0" + day2;
+            var formattedDate = year2 + "-" + month2 + "-" + day2;
+            input2.setAttribute("min", formattedDate);
+            debugger
+        });
+
+    </script>
 </div>
 </body>
 </html>

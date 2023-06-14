@@ -28,6 +28,12 @@ public class CityService {
         Optional<City> optional = cityRepository.findById(id);
         return optional.orElse(null);
     }
+    public City searchCity(String keyword){
+        City city = cityRepository.searchCity(keyword);
+        if(city == null)
+            return null;
+        return city;
+    }
     public City getCityByIdHotel(Long id){
         return cityRepository.findCitylByIdHotel(id);
     }
@@ -41,7 +47,7 @@ public class CityService {
         cityRepository.save(city);
     }
 
-    public void updateCity(@NotNull City city, MultipartFile multipartFile) throws IOException {
+    public void updateCity(City city, MultipartFile multipartFile) throws IOException {
         City existingCity = cityRepository.findById(city.getId()).orElse(null);
         Objects.requireNonNull(existingCity).setName(city.getName());
         existingCity.setDescription(city.getDescription());
@@ -49,11 +55,11 @@ public class CityService {
 
         if(multipartFile != null && !multipartFile.isEmpty()){
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            city.setImage(fileName);
+            existingCity.setImage(fileName);
             String upLoadDir = "city-images/" + city.getId();
             FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
         }
-        cityRepository.save(city);
+        cityRepository.save(existingCity);
     }
     public void deleteCity(Long id){
         cityRepository.deleteById(id);

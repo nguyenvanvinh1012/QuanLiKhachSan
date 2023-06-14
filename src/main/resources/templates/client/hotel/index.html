@@ -24,7 +24,8 @@
                     <div class="trend-box">
                         <div class="list-results">
                             <div class="d-flex justify-content-between align-items-center mb-2 border-b pb-2">
-                                <h3 style="font-size: 25px" class="mb-0"><span th:text="${city_name}"></span>: <span th:text="${count_hotel}"></span> hotels
+                                <h3 style="font-size: 25px" class="mb-0"><span th:text="${city_name}"></span>: <span
+                                        th:text="${count_hotel}"></span> hotels
                                     found</h3>
                                 <div class="click-menu d-flex align-items-center justify-content-between">
                                     <div class="change-list f-active mr-2"><a href="hotel-list.html"><i
@@ -46,12 +47,14 @@
                                         <div class="trend-content pt-2 pb-2">
                                             <div class="pb-1 d-flex align-items-center justify-content-between">
                                                 <div class="rating">
-                                                    <small style="margin-right: 3px" th:each="vote : ${#numbers.sequence(1, hotel.vote)}"
+                                                    <small style="margin-right: 3px"
+                                                           th:each="vote : ${#numbers.sequence(1, hotel.vote)}"
                                                            class="fas fa-star pink"></small>
                                                 </div>
                                                 <a href="#"><i class="flaticon-like"></i></a>
                                             </div>
-                                            <h3 class="mb-1"><a th:href="@{/hotel/detail/{id}(id=${hotel.id})}" th:text="${hotel.name}"></a></h3>
+                                            <h3 class="mb-1"><a th:href="@{/hotel/detail/{id}(id=${hotel.id})}"
+                                                                th:text="${hotel.name}"></a></h3>
                                             <div class="mb-2">
                                                 <i class="icon fa fa-map-marker-alt mr-2"></i> <span
                                                     th:text="${hotel.address}"></span>
@@ -63,8 +66,8 @@
                                                         th:text="${hotel.center}"></span> km</span>
                                             </div>
                                             <div class="mb-2">
-                                         <span class="text-primary font-size-14">Hotel type</span>
-                                                   </div>
+                                                <span class="text-primary font-size-14">Hotel type</span>
+                                            </div>
                                             <div class="trend-daily">
                                                 <h4 class="mb-0 pink font-weight-bold">From 150.000 VNĐ <small>/
                                                     night</small></h4>
@@ -78,9 +81,7 @@
                 </div>
                 <div class="col-lg-4 col-xs-12 mb-4">
                     <div class="sidebar-sticky">
-                        <!--                        @using (Html.BeginForm("Search", "KhachSan"))-->
-                        <!--                        {-->
-                        <div class="sidebar-item mb-4">
+                        <form th:action="@{/hotel/search2}" method="post" class="sidebar-item mb-4">
                             <div class="form-content">
                                 <h4 class="title white">Find Hotel</h4>
                                 <div class="row">
@@ -89,7 +90,7 @@
                                             <label class="white">Destination or Hotel Name</label>
                                             <div class="input-box">
                                                 <i class="flaticon-placeholder"></i>
-                                                <input type="text" name="keyword" value="@tp.Ten"
+                                                <input type="text" name="keyword" th:value="${city_name}"
                                                        placeholder="Where are you going?"/>
                                             </div>
                                         </div>
@@ -98,16 +99,16 @@
                                         <div class="form-group">
                                             <label class="white">Check In</label>
                                             <div class="input-box">
-                                                <!--                                                @if (kt == true)-->
-                                                <!--                                                {-->
-                                                <input style="padding-left: 10px" type="date" min="" id="ngayden"
-                                                       name="ngayden" value="" required>
-
-                                                <!--                                                }-->
-                                                <!--                                                else-->
-                                                <!--                                                {-->
-                                                <!--                                                <input style="padding-left: 10px" type="date" min="" id="ngayden" name="ngayden" required>-->
-                                                <!--                                                }-->
+                                                <div th:if="${checkin} != null">
+                                                    <input style="padding-left: 10px" type="date" th:id="${'ngayden'}"
+                                                           name="ngayden"
+                                                           th:value="${checkin.toString()}"
+                                                           required>
+                                                </div>
+                                                <div th:if="${checkin} == null">
+                                                    <input style="padding-left: 10px" type="date" th:id="${'ngayden'}"
+                                                           name="ngayden" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -115,16 +116,14 @@
                                         <div class="form-group">
                                             <label class="white">Check Out</label>
                                             <div class="input-box">
-                                                <!--                                                @if (kt == true)-->
-                                                <!--                                                {-->
-                                                <input style="padding-left: 10px" type="date" min="" id="ngaydi"
-                                                       name="ngaydi" value="" required>
-
-                                                <!--                                                }-->
-                                                <!--                                                else-->
-                                                <!--                                                {-->
-                                                <!--                                                <input style="padding-left: 10px" type="date" min="" id="ngaydi" name="ngaydi" required>-->
-                                                <!--                                                }-->
+                                                <div th:if="${checkout} != null">
+                                                    <input style="padding-left: 10px" type="date" min="" th:id="${'ngaydi'}"
+                                                           name="ngaydi" th:value="${checkout.toString()}" required>
+                                                </div>
+                                                <div th:if="${checkout} == null">
+                                                    <input style="padding-left: 10px" type="date" min="" th:id="${'ngaydi'}"
+                                                           name="ngaydi" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +151,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
 
                         <div class="list-sidebar">
                             <div class="sidebar-item">
@@ -231,13 +230,13 @@
                                 <div class="pretty p-default p-thick p-pulse">
                                     <input type="checkbox"/>
                                     <div class="state">
-                                        <label>Khách sạn</label>
+                                        <label>Hotel</label>
                                     </div>
                                 </div>
                                 <div class="pretty p-default p-thick p-pulse">
                                     <input type="checkbox"/>
                                     <div class="state">
-                                        <label>Biệt thự</label>
+                                        <label>Villa</label>
                                     </div>
                                 </div>
                                 <div class="pretty p-default p-thick p-pulse">
@@ -249,7 +248,7 @@
                                 <div class="pretty p-default p-thick p-pulse">
                                     <input type="checkbox"/>
                                     <div class="state">
-                                        <label>Thôn dã</label>
+                                        <label>Contryside</label>
                                     </div>
                                 </div>
                             </div>
@@ -259,8 +258,33 @@
             </div>
         </div>
     </section>
+    <script th:inline="javascript">
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("ngayden").setAttribute("min", today);
+        debugger
+        var input1 = document.getElementById('ngayden');
+        var input2 = document.getElementById('ngaydi');
+
+        input1.addEventListener('change', function () {
+            var selectedDate = new Date(input1.value);
+            var nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000); // Tăng thêm 1 ngày
+
+            var day2 = nextDay.getDate();
+            var month2 = nextDay.getMonth() + 1;
+            var year2 = nextDay.getFullYear();
+            if (month2 < 10) month2 = "0" + month2;
+            if (day2 < 10) day2 = "0" + day2;
+            var formattedDate = year2 + "-" + month2 + "-" + day2;
+            input2.setAttribute("min", formattedDate);
+            debugger
+        });
+    </script>
 </div>
-
-
 </body>
 </html>

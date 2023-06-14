@@ -157,15 +157,16 @@
                                 <h3>Booking details</h3>
                                 <ul class="list-unstyled font-size-1 mb-0 font-size-16">
                                     <li class="d-flex justify-content-between py-1 border-b">
-                                        <span class="font-weight-medium">Date <br>NgayDen<br>NgayDi</span>
+                                        <span class="font-weight-medium">Date <br><span th:utext="${#temporals.format(checkin, 'dd/MM/yyyy')}"></span><br>
+                                        <span th:utext="${#temporals.format(checkout, 'dd/MM/yyyy')}"></span> </span>
                                     </li>
                                     <li class="d-flex justify-content-between py-1 border-b">
-                                        <span class="font-weight-medium">Giá thuê </span>
-                                        <span class="text-secondary">GiaThue VNĐ</span>
+                                        <span class="font-weight-medium">Rent:</span>
+                                        <span class="text-secondary"> <span th:text="${#numbers.formatDecimal(room.rent, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</span>
                                     </li>
                                     <li class="d-flex justify-content-between py-1 border-b">
-                                        <span class="font-weight-medium">Tổng tiền</span>
-                                        <span class="text-secondary pink">VNĐ</span>
+                                        <span class="font-weight-medium">Total money</span>
+                                        <span class="text-secondary pink"><span th:text="${#numbers.formatDecimal(totalMoney, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</span>
                                     </li>
                                 </ul>
                             </div>
