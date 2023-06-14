@@ -26,23 +26,25 @@
                     <div class="form-group">
                         <label class="font-weight-semibold" for="cityName">City Name</label>
                         <input type="text" th:field="*{name}" class="form-control" id="cityName" placeholder="City name">
+                        <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="description">Description</label>
                         <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
+                        <span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="image">Image</label>
                         <input required type="file" name="img" class="form-control" id="image" placeholder="Image">
                     </div>
-<!--                    <div class="form-group">-->
-<!--                        <label class="font-weight-semibold" for="productStatus">Status</label>-->
-<!--                        <select class="custom-select" id="productStatus">-->
-<!--                            <option value="inStock" selected>In Stock</option>-->
-<!--                            <option value="outOfStock">Out of Stock</option>-->
-<!--                            <option value="pending">Pending</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label class="font-weight-semibold" for="productStatus">Status</label>-->
+                    <!--                        <select class="custom-select" id="productStatus">-->
+                    <!--                            <option value="inStock" selected>In Stock</option>-->
+                    <!--                            <option value="outOfStock">Out of Stock</option>-->
+                    <!--                            <option value="pending">Pending</option>-->
+                    <!--                        </select>-->
+                    <!--                    </div>-->
                     <input type="submit" class="btn btn-primary" value="Save">
                 </form>
             </div>

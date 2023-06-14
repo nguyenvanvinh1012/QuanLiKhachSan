@@ -1,14 +1,18 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 import com.nhom10.quanlikhachsan.entity.Role;
 import com.nhom10.quanlikhachsan.services.RoleSevervice;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/role")
@@ -32,8 +36,16 @@ public class Admin_RoleController {
     }
 
     @PostMapping("/add")
-    public String addRole(@ModelAttribute("role") Role role,
+    public String addRole(@Valid @ModelAttribute("role") Role role, BindingResult bindingResult, Model model,
                            RedirectAttributes redirectAttributes) throws IOException {
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/role/add";
+        }
 
         roleSevervice.addRole(role);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
@@ -56,8 +68,16 @@ public class Admin_RoleController {
         }
     }
     @PostMapping("/edit")
-    public String edit(@ModelAttribute("role") Role updateRole,
+    public String edit(@Valid @ModelAttribute("role") Role updateRole, BindingResult bindingResult, Model model,
                        RedirectAttributes redirectAttributes)throws IOException{
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/role/edit";
+        }
 
 
         roleSevervice.updateRole(updateRole);

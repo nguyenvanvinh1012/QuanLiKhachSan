@@ -1,6 +1,8 @@
 package com.nhom10.quanlikhachsan.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -13,8 +15,12 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
+    @NotBlank(message = "name is required")
+    @Size(min = 1, max = 15)
     private String name;
     @Column(name = "description")
+    @NotBlank(message = "description is required")
+    @Size(min = 1, max = 50)
     private String description;
     @Column(name = "image", length = 64)
     private String image;

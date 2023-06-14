@@ -3,11 +3,14 @@ package com.nhom10.quanlikhachsan.controller.admin;
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.services.CityService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -42,9 +45,17 @@ public class Admin_CityController {
     }
 
     @PostMapping("/add")
-    public String addCity(@ModelAttribute("city") City city,
+    public String addCity(@Valid @ModelAttribute("city") City city, BindingResult bindingResult, Model model,
                           @RequestParam("img") MultipartFile multipartFile,
                           RedirectAttributes redirectAttributes) throws IOException {
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/city/add";
+        }
         cityService.addCity(city, multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/city/1";
@@ -67,9 +78,17 @@ public class Admin_CityController {
     }
 
     @PostMapping("edit")
-    public String edit(@ModelAttribute("city") City updateCity,
+    public String edit(@Valid @ModelAttribute("city") City updateCity, BindingResult bindingResult, Model model,
                        @RequestParam("img") MultipartFile multipartFile,
                        RedirectAttributes redirectAttributes)throws IOException{
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/city/add";
+        }
 
         cityService.updateCity(updateCity, multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");

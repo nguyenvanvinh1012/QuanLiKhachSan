@@ -15,12 +15,13 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 50, nullable = false)
     @Size(max = 50, message = "Name must be less than 50 characters")
     @NotBlank(message = "Name is required")
-    @Column(length = 50, nullable = false)
     private String name;
-    @Size(max = 250, message = "Description must be less than 250 characters")
     @Column(length = 250)
+    @Size(max = 50, message = "Name must be less than 50 characters")
+    @NotBlank(message = "Description is required")
     private String description;
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();

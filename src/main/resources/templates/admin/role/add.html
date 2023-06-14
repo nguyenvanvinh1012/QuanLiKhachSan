@@ -26,10 +26,12 @@
                     <div class="form-group">
                         <label class="font-weight-semibold" for="roleName">role Name</label>
                         <input type="text" th:field="*{name}" class="form-control" id="roleName" placeholder="Role name">
+                        <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="description">Description</label>
                         <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
+                        <span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Save">
                 </form>
