@@ -4,15 +4,19 @@ import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.services.CityService;
 import com.nhom10.quanlikhachsan.services.HotelService;
 import com.nhom10.quanlikhachsan.services.HotelTypeService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.naming.Binding;
 import java.io.IOException;
 import java.util.List;
 
@@ -50,15 +54,22 @@ public class Admin_HotelController {
     }
 
     @PostMapping("/add")
-    public String addHotel(@ModelAttribute("hotel") Hotel hotel,
+    public String addHotel(@Valid @ModelAttribute("hotel") Hotel hotel, BindingResult bindingResult,
                            @RequestParam("vote") Integer vote,
                            @RequestParam("meal") Integer meal,
                            @RequestParam("image1") MultipartFile multipartFile1,
                            @RequestParam("image2") MultipartFile multipartFile2,
                            @RequestParam("image3") MultipartFile multipartFile3,
-                           @RequestParam("image4") MultipartFile multipartFile4,
+                           @RequestParam("image4") MultipartFile multipartFile4,Model model,
                            RedirectAttributes redirectAttributes) throws IOException {
-
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/hotel/add";
+        }
         hotelService.addHotel(hotel, vote, meal, multipartFile1,multipartFile2,multipartFile3,multipartFile4);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/hotel/1";

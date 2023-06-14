@@ -3,12 +3,15 @@ package com.nhom10.quanlikhachsan.controller.admin;
 import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.HotelType;
 import com.nhom10.quanlikhachsan.services.HotelTypeService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,8 +47,16 @@ public class Admin_HotelTypeController {
     }
 
     @PostMapping("/add")
-    public String addHotelType(@ModelAttribute("hotelType") HotelType hotelType,
-                               @RequestParam("img") MultipartFile multipartFile) throws IOException {
+    public String addHotelType(@Valid @ModelAttribute("hotelType") HotelType hotelType, BindingResult bindingResult,
+                               @RequestParam("img") MultipartFile multipartFile, Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/hotelType/add";
+        }
         hotelTypeService.addHotelType(hotelType,multipartFile);
         return "redirect:/admin/hotelType/1";
     }

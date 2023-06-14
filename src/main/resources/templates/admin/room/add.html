@@ -26,22 +26,27 @@
                     <div class="form-group">
                         <label class="font-weight-semibold" for="roomName">Type Name</label>
                         <input type="text" th:field="*{name}" class="form-control" id="roomName" placeholder="Room name">
+                        <span class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="area">Area</label>
                         <input type="text" th:field="*{area}" class="form-control" id="area" placeholder="Area">
+                        <span class="alert alert-danger" th:if="${#fields.hasErrors('area')}" th:errors="*{area}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="rent">Rent</label>
                         <input type="text" th:field="*{rent}" class="form-control" id="rent" placeholder="Rent">
+                        <span class="alert alert-danger" th:if="${#fields.hasErrors('rent')}" th:errors="*{rent}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="convenient">Convenient</label>
                         <input type="text" th:field="*{convenient}" class="form-control" id="convenient" placeholder="Convenient">
+                        <span class="alert alert-danger" th:if="${#fields.hasErrors('convenient')}" th:errors="*{convenient}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold" for="description">Description</label>
                         <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Description">
+                        <span class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-semibold">Bed_type</label>

@@ -4,12 +4,15 @@ import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.Room;
 import com.nhom10.quanlikhachsan.services.HotelService;
 import com.nhom10.quanlikhachsan.services.RoomService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -48,10 +51,19 @@ public class Admin_RoomController {
     }
 
     @PostMapping("/add")
-    public String addRoom(@ModelAttribute("room") Room room,
+    public String addRoom(@Valid @ModelAttribute("room") Room room, BindingResult bindingResult,
                           @RequestParam("img") MultipartFile multipartFile,
-                          @RequestParam("bed_type")  Integer bed_type,
+                          @RequestParam("bed_type")  Integer bed_type, Model model,
                           RedirectAttributes redirectAttributes ) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                model.addAttribute(error.getField() + "_error",
+                        error.getDefaultMessage());
+            }
+            return "admin/room/add";
+        }
         roomService.addRoom(room,bed_type,multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/room/1";
