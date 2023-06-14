@@ -1,7 +1,12 @@
 package com.nhom10.quanlikhachsan.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +18,25 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Hotel name must not be empty")
     @Column(name = "name")
     private String name;
+
+    @NotBlank(message = "Address is required")
     @Column(name = "address")
     private String address;
-    @Column(name = "phone")
+
+
+    @Column(name = "phone",length = 10,unique = true)
+    @Length(min=10,max = 10,message = "Phone number must be 10 characters")
+    @Pattern(regexp = "^[0-9]*$",message = "Phone must be number !")
     private String phone;
+
+    @Size(max = 1000, message = "Description must not exceed 1000 characters")
     @Column(name = "description" ,length = 1000)
     private String description;
+
+    @Min(value = 1, message = "Center should be greater than or equal to 1")
     @Column(name = "center")
     private double center; // cach trung tam
     @Column(name = "bordering_sea")
