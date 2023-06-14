@@ -3,7 +3,9 @@ package com.nhom10.quanlikhachsan.controller.admin;
 import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.HotelType;
 import com.nhom10.quanlikhachsan.services.HotelTypeService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -12,18 +14,26 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/hotelType")
 public class Admin_HotelTypeController {
     @Autowired
     private HotelTypeService hotelTypeService;
-    @GetMapping("")
-    public String index(Model model){
-        model.addAttribute("list_hotelType", hotelTypeService.getAllHotelType());
+
+    @GetMapping("/{pageNo}")
+    public String index(@PathVariable (value = "pageNo") int pageNo, Model model){
+        int pageSize = 5;
+        Page<HotelType> page = hotelTypeService.findPaginated(pageNo, pageSize);
+        List<HotelType> listHotelType = page.getContent();
+        model.addAttribute("list_hotelType", listHotelType);
         if(model.containsAttribute("message")){
             model.addAttribute("message", model.getAttribute("message"));
         }
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         return "admin/hotelType/index";
     }
 
@@ -35,16 +45,9 @@ public class Admin_HotelTypeController {
 
     @PostMapping("/add")
     public String addHotelType(@ModelAttribute("hotelType") HotelType hotelType,
-                               @RequestParam("img") MultipartFile multipartFile,
-                               RedirectAttributes redirectAttributes) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        hotelType.setImage(fileName);
-        hotelType.setActive(true);
-        HotelType savedhotelType  = hotelTypeService.addHotelType2(hotelType);
-        String upLoadDir = "hotelType-images/" + savedhotelType.getId();
-        FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin/hotelType";
+                               @RequestParam("img") MultipartFile multipartFile) throws IOException {
+        hotelTypeService.addHotelType(hotelType,multipartFile);
+        return "redirect:/admin/hotelType/1";
     }
 
     @GetMapping("/edit/{id}")
@@ -68,18 +71,22 @@ public class Admin_HotelTypeController {
                        @RequestParam("img") MultipartFile multipartFile,
                        RedirectAttributes redirectAttributes)throws IOException{
 
-        HotelType hotelType = hotelTypeService.getHotelTypeById(updateHotelType.getId());
-        hotelType.setName(updateHotelType.getName());
-        hotelType.setDescription(updateHotelType.getDescription());
-        hotelType.setActive(updateHotelType.getActive());
-        if(multipartFile != null && !multipartFile.isEmpty()){
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            hotelType.setImage(fileName);
-            String upLoadDir = "hotelType-images/" + hotelType.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        }
-        hotelTypeService.updateHotelType(hotelType);
+        hotelTypeService.updateHotelType(updateHotelType,multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin/hotelType";
+        return "redirect:/admin/hotelType/1";
+    }
+
+    @GetMapping("/search")
+    public String searchHotelType(
+            @NotNull Model model,
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        Page<HotelType> searchedHotelType = hotelTypeService.searchHotelType(keyword, pageNo, pageSize, sortBy);
+        model.addAttribute("list_hotelType", searchedHotelType.getContent());
+        model.addAttribute("currentPage", searchedHotelType.getNumber());
+        model.addAttribute("totalPages", searchedHotelType.getTotalPages());
+        return "admin/hotelType/index";
     }
 }

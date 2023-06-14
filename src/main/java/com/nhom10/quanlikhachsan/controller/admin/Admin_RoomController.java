@@ -4,7 +4,9 @@ import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.Room;
 import com.nhom10.quanlikhachsan.services.HotelService;
 import com.nhom10.quanlikhachsan.services.RoomService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/room")
@@ -21,12 +24,19 @@ public class Admin_RoomController {
     private RoomService roomService;
     @Autowired
     private HotelService hotelService;
-    @GetMapping("")
-    public String index(Model model){
-        model.addAttribute("list_room", roomService.getAllRoom());
+
+    @GetMapping("/{pageNo}")
+    public String index(@PathVariable (value = "pageNo") int pageNo, Model model){
+        int pageSize = 5;
+        Page<Room> page = roomService.findPaginated(pageNo, pageSize);
+        List<Room> listRoom = page.getContent();
+        model.addAttribute("list_room", listRoom);
         if(model.containsAttribute("message")){
             model.addAttribute("message", model.getAttribute("message"));
         }
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         return "admin/room/index";
     }
 
@@ -39,13 +49,12 @@ public class Admin_RoomController {
 
     @PostMapping("/add")
     public String addRoom(@ModelAttribute("room") Room room,
-                               @RequestParam("img") MultipartFile multipartFile) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        room.setImage(fileName);
-        Room savedroom  = roomService.addRoom2(room);
-        String upLoadDir = "room-images/" + savedroom.getId();
-        FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        return "redirect:/admin/room";
+                          @RequestParam("img") MultipartFile multipartFile,
+                          @RequestParam("bed_type")  Integer bed_type,
+                          RedirectAttributes redirectAttributes ) throws IOException {
+        roomService.addRoom(room,bed_type,multipartFile);
+        redirectAttributes.addFlashAttribute("message", "Save successfully!");
+        return "redirect:/admin/room/1";
     }
 
     @GetMapping("/edit/{id}")
@@ -68,24 +77,24 @@ public class Admin_RoomController {
     @PostMapping("edit")
     public String edit(@ModelAttribute("room") Room updateRoom,
                        @RequestParam("img") MultipartFile multipartFile,
+                       @RequestParam("bed_type")  Integer bed_type,
                        RedirectAttributes redirectAttributes)throws IOException{
-
-        Room room = roomService.getRoomById(updateRoom.getId());
-        room.setName(updateRoom.getName());
-        room.setArea(updateRoom.getArea());
-        room.setRent(updateRoom.getRent());
-        room.setConvenient(updateRoom.getConvenient());
-        room.setBed_type(updateRoom.getBed_type());
-        room.setDescription(updateRoom.getDescription());
-        room.setHotel(updateRoom.getHotel());
-        if(multipartFile != null && !multipartFile.isEmpty()){
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            room.setImage(fileName);
-            String upLoadDir = "room-images/" + room.getId();
-            FileUploadUtil.saveFile(upLoadDir, fileName, multipartFile);
-        }
-        roomService.updateRoom(room);
+        roomService.updateRoom(updateRoom,bed_type,multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin/room";
+        return "redirect:/admin/room/1";
+    }
+
+    @GetMapping("/search")
+    public String searchRoom(
+            @NotNull Model model,
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        Page<Room> searchedRoom = roomService.searchRoom(keyword, pageNo, pageSize, sortBy);
+        model.addAttribute("list_room", searchedRoom.getContent());
+        model.addAttribute("currentPage", searchedRoom.getNumber());
+        model.addAttribute("totalPages", searchedRoom.getTotalPages());
+        return "admin/room/index";
     }
 }

@@ -25,11 +25,16 @@
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="input-affix m-v-10">
-                                <i class="prefix-icon anticon anticon-search opacity-04"></i>
-                                <input id="keyword" name="keyword" type="text" class="form-control"
-                                       placeholder="Tìm phòng ">
-                            </div>
+                            <form th:action="@{/admin/room/search}" method="get">
+                                <div class="form-row">
+                                    <div class="form-group col-md-8">
+                                        <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Search by name">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -79,6 +84,32 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div th:if = "${totalPages > 1}">
+            <div class = "row col-sm-10">
+                <div class = "col-sm-2">
+                    Total Rows: [[${totalItems}]]
+                </div>
+                <div class = "col-sm-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/admin/room/' + ${currentPage - 1}}">Back</a>
+                    <span th:unless="${currentPage > 1 }">Back</span>
+                </div>
+                <div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/admin/room/' + ${i}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+                </div>
+                <div class = "col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/room/' + ${currentPage + 1}}">Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>
+                </div>
+
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/room/' + ${totalPages}}">Last</a>
+                    <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
             </div>
         </div>
     </div>

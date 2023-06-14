@@ -1,8 +1,11 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 
 import com.nhom10.quanlikhachsan.entity.City;
+import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.services.CityService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,18 +13,25 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/city")
 public class Admin_CityController {
     @Autowired
     private CityService cityService;
-    @GetMapping("")
-    public String index(Model model){
-        model.addAttribute("list_city", cityService.getAllCities());
+    @GetMapping("/{pageNo}")
+    public String index(@PathVariable (value = "pageNo") int pageNo, Model model){
+        int pageSize = 5;
+        Page<City> page = cityService.findPaginated(pageNo, pageSize);
+        List<City> listCity = page.getContent();
+        model.addAttribute("list_city", listCity);
         if(model.containsAttribute("message")){
             model.addAttribute("message", model.getAttribute("message"));
         }
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         return "admin/city/index";
     }
 
@@ -37,7 +47,7 @@ public class Admin_CityController {
                           RedirectAttributes redirectAttributes) throws IOException {
         cityService.addCity(city, multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin/city";
+        return "redirect:/admin/city/1";
     }
 
     @GetMapping("/edit/{id}")
@@ -63,6 +73,20 @@ public class Admin_CityController {
 
         cityService.updateCity(updateCity, multipartFile);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin/city";
+        return "redirect:/admin/city/1";
+    }
+
+    @GetMapping("/search")
+    public String searchCity2(
+            @NotNull Model model,
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        Page<City> searchedCity2 = cityService.searchCity2(keyword, pageNo, pageSize, sortBy);
+        model.addAttribute("list_hotel", searchedCity2.getContent());
+        model.addAttribute("currentPage", searchedCity2.getNumber());
+        model.addAttribute("totalPages", searchedCity2.getTotalPages());
+        return "admin/hotel/index";
     }
 }

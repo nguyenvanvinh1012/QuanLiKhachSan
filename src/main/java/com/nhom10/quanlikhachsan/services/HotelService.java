@@ -6,6 +6,9 @@ import com.nhom10.quanlikhachsan.repository.IHotelRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -116,5 +119,15 @@ public class HotelService {
     }
     public void deleteHotel(Long id){
         hotelRepository.deleteById(id);
+    }
+
+    public Page<Hotel> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.hotelRepository.findAll(pageable);
+    }
+
+    public Page<Hotel> searchHotel(String keyword, int pageNo, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+        return hotelRepository.searchHotel(keyword, pageable);
     }
 }

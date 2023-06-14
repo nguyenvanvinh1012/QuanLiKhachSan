@@ -1,10 +1,15 @@
 package com.nhom10.quanlikhachsan.services;
 
+import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.repository.ICityRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,5 +68,15 @@ public class CityService {
     }
     public void deleteCity(Long id){
         cityRepository.deleteById(id);
+    }
+
+    public Page<City> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.cityRepository.findAll(pageable);
+    }
+
+    public Page<City> searchCity2(String keyword, int pageNo, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+        return cityRepository.searchCity2(keyword, pageable);
     }
 }
