@@ -1,7 +1,9 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 
+import com.nhom10.quanlikhachsan.entity.Role;
 import com.nhom10.quanlikhachsan.entity.User;
 import com.nhom10.quanlikhachsan.services.AccountService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,14 +19,6 @@ import java.util.List;
 public class Admin_AccountController {
     @Autowired
     private AccountService accountService;
-    //    @GetMapping("")
-//    public String index(Model model){
-//        model.addAttribute("list_account", accountService.getAllAccounts());
-//        if(model.containsAttribute("message")){
-//            model.addAttribute("message", model.getAttribute("message"));
-//        }
-//        return "admin/account/index";
-//    }
     @GetMapping("/{pageNo}")
     public String index(@PathVariable(value = "pageNo") int pageNo, Model model){
         int pageSize = 5;
@@ -65,6 +59,19 @@ public class Admin_AccountController {
         accountService.updateAccount(user);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/account/1";
+    }
+    @GetMapping("/search")
+    public String searchAccount(
+            @NotNull Model model,
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        Page<User> searchedAccount = accountService.searchAccount(keyword, pageNo, pageSize, sortBy);
+        model.addAttribute("list_account", searchedAccount.getContent());
+        model.addAttribute("currentPage", searchedAccount.getNumber());
+        model.addAttribute("totalPages", searchedAccount.getTotalPages());
+        return "admin/account/index";
     }
 }
 

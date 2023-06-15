@@ -5,6 +5,10 @@ import com.nhom10.quanlikhachsan.entity.Role;
 import com.nhom10.quanlikhachsan.repository.IRoleRepository;
 import com.nhom10.quanlikhachsan.ultils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +38,14 @@ public class RoleSevervice {
     public void deleteRole(Long id){
         roleRepository.deleteById(id);
     }
+    public Page<Role> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.roleRepository.findAll(pageable);
+    }
 
+    public Page<Role> searchRole(String keyword, int pageNo, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+        return roleRepository.searchRole(keyword, pageable);
+    }
 
 }

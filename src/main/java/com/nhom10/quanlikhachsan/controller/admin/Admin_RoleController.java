@@ -2,7 +2,9 @@ package com.nhom10.quanlikhachsan.controller.admin;
 import com.nhom10.quanlikhachsan.entity.Role;
 import com.nhom10.quanlikhachsan.services.RoleSevervice;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +21,19 @@ import java.util.List;
 public class Admin_RoleController {
     @Autowired
     private RoleSevervice roleSevervice;
-    @GetMapping("")
-    public String index(Model model){
-        model.addAttribute("list_role", roleSevervice.getAllRole());
+    @GetMapping("/{pageNo}")
+    public String index(@PathVariable (value = "pageNo") int pageNo, Model model){
+        int pageSize = 5;
+        Page<Role> page = roleSevervice.findPaginated(pageNo, pageSize);
+        List<Role> listRole = page.getContent();
+        model.addAttribute("list_role", listRole);
         if(model.containsAttribute("message")){
             model.addAttribute("message", model.getAttribute("message"));
         }
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         return "admin/role/index";
-
     }
     @GetMapping("/add")
     public String add(Model model) {
@@ -83,5 +90,18 @@ public class Admin_RoleController {
         roleSevervice.updateRole(updateRole);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/role";
+    }
+    @GetMapping("/search")
+    public String searchRole(
+            @NotNull Model model,
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy) {
+        Page<Role> searchedRoles = roleSevervice.searchRole(keyword, pageNo, pageSize, sortBy);
+        model.addAttribute("list_role", searchedRoles.getContent());
+        model.addAttribute("currentPage", searchedRoles.getNumber());
+        model.addAttribute("totalPages", searchedRoles.getTotalPages());
+        return "admin/role/index";
     }
 }

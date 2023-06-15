@@ -7,6 +7,10 @@ import com.nhom10.quanlikhachsan.entity.User;
 import com.nhom10.quanlikhachsan.repository.IBookRoomRepository;
 import com.nhom10.quanlikhachsan.repository.ICityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
@@ -41,4 +45,13 @@ public class BookRoomService {
         bookRoom.setRoom(room);
         bookRoomRepository.save(bookRoom);
     }
+    public Page<BookRoom> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.bookRoomRepository.findAll(pageable);
+    }
+    public Page<BookRoom> searchBookRoom(String keyword, int pageNo, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+        return bookRoomRepository.searchBookRoom(keyword, pageable);
+    }
+
 }
