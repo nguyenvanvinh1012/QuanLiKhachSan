@@ -14,21 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLParameters;
-import java.io.IOException;
-import java.net.Authenticator;
-import java.net.CookieHandler;
-import java.net.ProxySelector;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
+
 
 @Controller
 @RequestMapping("/hotel")
@@ -41,6 +30,10 @@ public class HotelController {
     private CityService cityService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BookRoomService bookRoomService;
+    public static long temp;
+    public static long tempRoomId;
     @GetMapping("/{id}")
     public String List_hotel(@PathVariable("id") Long id, Model model, HttpSession session){
         City city = cityService.getCityById(id);
@@ -79,7 +72,10 @@ public class HotelController {
     }
     @GetMapping("/detail/{id}")
     public String Hotel_detail(@PathVariable("id") Long id, Model model, HttpSession session){
-
+        temp = id;
+        if(model.containsAttribute("message")){
+            model.addAttribute("message", model.getAttribute("message"));
+        }
         LocalDate checkin = (LocalDate) session.getAttribute("checkin");
         LocalDate checkout = (LocalDate) session.getAttribute("checkout");
         if(checkin != null && checkout != null){
@@ -89,7 +85,6 @@ public class HotelController {
         }
 
         model.addAttribute("list_room", roomService.getAllRoomByHotelId(id));
-        Long test = roomService.countRoomsByHotelId(id);
         model.addAttribute("count_room", roomService.countRoomsByHotelId(id));
         model.addAttribute("hotel", hotelService.getHotelById(id));
         return "client/hotel/detail";
@@ -103,14 +98,22 @@ public class HotelController {
     }
 
     @GetMapping("/confirm/{id}")
-    public String Confirm_info(@PathVariable("id") Long id, Model model,HttpSession session){
+    public String Confirm_info(@PathVariable("id") Long id, Model model,HttpSession session,
+                               RedirectAttributes redirectAttributes){
+        tempRoomId = id;
+        //get date
+        LocalDate checkin = (LocalDate) session.getAttribute("checkin");
+        LocalDate checkout = (LocalDate) session.getAttribute("checkout");
+        if (checkin == null && checkout == null){
+            redirectAttributes.addFlashAttribute("message", "Please check availability!");
+            redirectAttributes.addAttribute("id", temp);
+            return  "redirect:/hotel/detail/{id}";
+        }
         //get username
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        //get date
-        LocalDate checkin = (LocalDate) session.getAttribute("checkin");
-        LocalDate checkout = (LocalDate) session.getAttribute("checkout");
+
         User user = userService.findUserByUserName(username);
         Room room = roomService.getRoomById(id);
         Hotel hotel = hotelService.getHotelByIdRoom(room.getHotel().getId());
@@ -127,5 +130,21 @@ public class HotelController {
         model.addAttribute("totalMoney", totalMoney);
         return "client/hotel/confirm";
     }
-
+    @GetMapping("/payment")
+    public String payment(HttpSession session, RedirectAttributes redirectAttributes){
+        //get user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findUserByUserName(username);
+        //get date
+        LocalDate checkin = (LocalDate) session.getAttribute("checkin");
+        LocalDate checkout = (LocalDate) session.getAttribute("checkout");
+        //get room
+        Room  room = roomService.getRoomById(tempRoomId);
+        long numDay = ChronoUnit.DAYS.between(checkin, checkout);
+        //get money
+        double totalMoney = numDay * room.getRent();
+        bookRoomService.savePaymentOff(user,room,checkin,checkout,totalMoney);
+        return "redirect:/";
+    }
 }

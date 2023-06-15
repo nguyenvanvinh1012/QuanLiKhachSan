@@ -2,12 +2,16 @@ package com.nhom10.quanlikhachsan.services;
 
 import com.nhom10.quanlikhachsan.entity.BookRoom;
 import com.nhom10.quanlikhachsan.entity.City;
+import com.nhom10.quanlikhachsan.entity.Room;
+import com.nhom10.quanlikhachsan.entity.User;
 import com.nhom10.quanlikhachsan.repository.IBookRoomRepository;
 import com.nhom10.quanlikhachsan.repository.ICityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,5 +28,17 @@ public class BookRoomService {
     }
     public void deleteBookRoom(Long id){
         bookRoomRepository.deleteById(id);
+    }
+    public void savePaymentOff(User user, Room room, LocalDate checkin, LocalDate checkout, double money){
+        BookRoom bookRoom = new BookRoom();
+        Date checkin1 = Date.valueOf(checkin);
+        Date checkout1 = Date.valueOf(checkout);
+        bookRoom.setCheck_in(checkin1);
+        bookRoom.setCheck_out(checkout1);
+        bookRoom.setMoney(money);
+        bookRoom.setIsPaid(false);
+        bookRoom.setUser(user);
+        bookRoom.setRoom(room);
+        bookRoomRepository.save(bookRoom);
     }
 }

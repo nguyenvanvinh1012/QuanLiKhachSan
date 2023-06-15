@@ -22,6 +22,7 @@
         </div>
         <div class="dot-overlay"></div>
     </section>
+    <span class="d-none" id="messageSuccess" th:text="${message}"></span>
 
     <section class="blog trending destination-b pb-6">
         <div class="container">
@@ -485,7 +486,19 @@
             </div>
         </div>
     </section>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
     <script th:inline="javascript">
+        $(document).ready(function () {
+            var message = $('#messageSuccess').text();
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+            }
+            if (message !== '') {
+                toastr.error(message);
+            }
+        });
+
         var date = new Date();
         var day = date.getDate();
         var month = date.getMonth() + 1;

@@ -24,9 +24,8 @@ public interface ICityRepository extends PagingAndSortingRepository<City, Long>,
     City searchCity(String keyword);
 
     @Query("""
-        SELECT r from City r
-        WHERE r.name LIKE %?1%
-        """
-    )
+        SELECT c from City c
+        WHERE c.name LIKE %?1%
+        """)
     Page<City> searchCity2(String keyword, Pageable pageable);
 }

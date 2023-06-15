@@ -47,15 +47,16 @@ public class RoomService {
         roomRepository.save(room);
     }
 
-
     public void updateRoom(@NotNull Room room, int beb_type,
                            MultipartFile multipartFile ) throws IOException{
+
         Room existingRoom = roomRepository.findById(room.getId()).orElse(null);
         Objects.requireNonNull(existingRoom).setName(room.getName());
         existingRoom.setArea(room.getArea());
         existingRoom.setRent(room.getRent());
         existingRoom.setConvenient(room.getConvenient());
         existingRoom.setDescription(room.getDescription());
+        existingRoom.setHotel(room.getHotel());
         if (beb_type != 0)
             existingRoom.setBed_type(room.getBed_type());
         if(multipartFile != null && !multipartFile.isEmpty()){

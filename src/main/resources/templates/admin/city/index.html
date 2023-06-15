@@ -113,18 +113,18 @@
         </div>
     </div>
     <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
-    <script th:inline="javascript">
-        $(document).ready(function () {
-            var message = $('#messageSuccess').text();
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-            }
-            if (message !== '') {
-                toastr.success(message);
-            }
-        });
-    </script>
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                var message = $('#messageSuccess').text();
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                }
+                if (message !== '') {
+                    toastr.success(message);
+                }
+            });
+        </script>
 </div>
 </body>
 </html>

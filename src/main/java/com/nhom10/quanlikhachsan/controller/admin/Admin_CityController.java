@@ -103,9 +103,9 @@ public class Admin_CityController {
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy) {
         Page<City> searchedCity2 = cityService.searchCity2(keyword, pageNo, pageSize, sortBy);
-        model.addAttribute("list_hotel", searchedCity2.getContent());
+        model.addAttribute("list_city", searchedCity2.getContent());
         model.addAttribute("currentPage", searchedCity2.getNumber());
         model.addAttribute("totalPages", searchedCity2.getTotalPages());
-        return "admin/hotel/index";
+        return "admin/city/index";
     }
 }

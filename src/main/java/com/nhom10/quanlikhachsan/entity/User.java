@@ -28,7 +28,7 @@ public class User{
     private String password;
     @NotBlank(message = "Full name is required")
     private String full_name;
-    @Column(name = "phone", length = 10, unique = true)
+    @Column(name = "phone", length = 20, unique = true)
     @Length(min = 10, max = 10, message = "Phone must be 10 characters")
     @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
     private String phone;

@@ -1,7 +1,6 @@
 package com.nhom10.quanlikhachsan.controller.admin;
 
 import com.nhom10.quanlikhachsan.services.BookRoomService;
-import com.nhom10.quanlikhachsan.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
