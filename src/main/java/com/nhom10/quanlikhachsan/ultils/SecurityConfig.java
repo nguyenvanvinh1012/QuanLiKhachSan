@@ -48,16 +48,15 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/assets/**", "/cdn-cgi/**",
                                 "/fonts/**","/images/**" ,"/img/**"
                                 ,"/cdnjs.cloudflare.com/ajax/libs/font-awesome/**",
+                                "/webjars/jquery/3.6.0/jquery.min.js",
                                 "/city-images/**", "/hotel-images/**", "/hotelType-images/**", "/room-images/**"
-                                ,"/hotel/{id}", "/hotel/detail/{id}","/search","/hotel/search2","/hotel/search-detail"
+                                ,"/hotel/{id}/{pageNo}", "/hotel/detail/{id}","/search","/hotel/search2","/hotel/search-detail"
                                 ,"/", "/register", "/error")
                         .permitAll()
                         .requestMatchers("/admin/**")
                         .hasAnyAuthority("ADMIN")
                         .requestMatchers("/api/**")
-
                         .authenticated()
-
                         .anyRequest().authenticated()
                 )
                 .logout(logout ->

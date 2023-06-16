@@ -55,10 +55,10 @@
                         <td th:text="${temp.id}"></td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <h6 class="m-b-0 m-l-10" th:text="${temp.check_in}"></h6>
+                                <h6 class="m-b-0 m-l-10" th:text="${#dates.format(temp.check_in, 'dd/MM/yyyy')}"></h6>
                             </div>
                         </td>
-                        <td th:text="${temp.check_out}"></td>
+                        <td th:text="${#dates.format(temp.check_out, 'dd/MM/yyyy')}"></td>
                         <td th:if="${temp.isPaid} == true">
                             <div class="d-flex align-items-center">
                                 <div class="badge badge-success badge-dot m-r-10"></div>
@@ -71,6 +71,8 @@
                                 <div>False</div>
                             </div>
                         </td>
+                        <td> <span th:text="${#numbers.formatDecimal(temp.money, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</td>
+                        <td th:text="${temp.room.id}"></td>
                         <td>
                             <a th:href="@{/admin/bookRoom/edit/{id}(id=${temp.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i></a>

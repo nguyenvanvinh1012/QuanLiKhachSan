@@ -1,22 +1,32 @@
 package com.nhom10.quanlikhachsan.controller.client;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.entity.Hotel;
 import com.nhom10.quanlikhachsan.entity.Room;
 import com.nhom10.quanlikhachsan.entity.User;
 import com.nhom10.quanlikhachsan.services.*;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -32,10 +42,15 @@ public class HotelController {
     private UserService userService;
     @Autowired
     private BookRoomService bookRoomService;
+    @Autowired
+    private PaypalService paypalService;
+    public static final String SUCCESS_URL = "pay/success";
+    public static final String CANCEL_URL = "pay/cancel";
     public static long temp;
     public static long tempRoomId;
-    @GetMapping("/{id}")
-    public String List_hotel(@PathVariable("id") Long id, Model model, HttpSession session){
+    @GetMapping("/{id}/{pageNo}")
+    public String List_hotel(@PathVariable("id") Long id, @PathVariable("pageNo") int pageNo,
+                             Model model, HttpSession session){
         City city = cityService.getCityById(id);
         if(city == null){
             return "client/error/405";
@@ -50,9 +65,19 @@ public class HotelController {
             model.addAttribute("checkin", checkin);
             model.addAttribute("checkout", checkout);
         }
+
+
         model.addAttribute("city_name", city.getName());
         model.addAttribute("count_hotel", hotelService.countHotelByCityId(id) + 462);
-        model.addAttribute("list_hotel", hotelService.getAllHotelActiveIdCity(id));
+//        model.addAttribute("list_hotel", hotelService.getAllHotelActiveIdCity(id));
+        int pageSize = 5;
+        Page<Hotel> page = hotelService.findPaginatedByCityId(id, pageNo, pageSize);
+        List<Hotel> listHotel = page.getContent();
+        model.addAttribute("city_id", city.getId());
+        model.addAttribute("list_hotel", listHotel);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         return "client/hotel/index";
     }
     @PostMapping("/search2")
@@ -68,25 +93,57 @@ public class HotelController {
             return "client/error/405";
         }
         redirectAttributes.addAttribute("id", city.getId());
-        return "redirect:/hotel/{id}";
+        return "redirect:/hotel/{id}/1";
     }
+
     @GetMapping("/detail/{id}")
     public String Hotel_detail(@PathVariable("id") Long id, Model model, HttpSession session){
         temp = id;
         if(model.containsAttribute("message")){
             model.addAttribute("message", model.getAttribute("message"));
         }
+
+        Hotel hotel = hotelService.getHotelById(id);
+        // Gọi Google Maps Geocoding API để lấy tọa độ từ địa chỉ
+//        GeoApiContext context = new GeoApiContext.Builder()
+//                .apiKey("AIzaSyAmOTTdm9TwR98k9vaolqGuONg-FaUX2lk")
+//                .build();
+//        GeocodingResult[] results;
+//        try {
+//            results = GeocodingApi.geocode(context, hotel.getAddress()).await();
+//        } catch (Exception e) {
+//            // Xử lý lỗi nếu cần thiết
+//            return "error";
+//        }
+//        if (results != null && results.length > 0) {
+//            double latitude = results[0].geometry.location.lat;
+//            double longitude = results[0].geometry.location.lng;
+//
+//            // Truyền tọa độ lat,lng vào view
+//            model.addAttribute("latitude", latitude);
+//            model.addAttribute("longitude", longitude);
+//        }
+
+        model.addAttribute("hotel", hotel);
         LocalDate checkin = (LocalDate) session.getAttribute("checkin");
         LocalDate checkout = (LocalDate) session.getAttribute("checkout");
+
         if(checkin != null && checkout != null){
             model.addAttribute("checkin", checkin);
             model.addAttribute("checkout", checkout);
-
+            //create list to store empty rooms
+            List<Room> empty_rooms = new ArrayList<>();
+            List<Room> rooms = roomService.getAllRoomByHotelId(id);
+            //check empty room
+            for (Room tmp : rooms){
+                if(bookRoomService.checkEmptyRoom(tmp, checkin, checkout)){
+                    empty_rooms.add(tmp);
+                }
+            }
+            model.addAttribute("list_room", empty_rooms);
+            return "client/hotel/detail";
         }
-
         model.addAttribute("list_room", roomService.getAllRoomByHotelId(id));
-        model.addAttribute("count_room", roomService.countRoomsByHotelId(id));
-        model.addAttribute("hotel", hotelService.getHotelById(id));
         return "client/hotel/detail";
     }
     @PostMapping("/search-detail")
@@ -94,7 +151,10 @@ public class HotelController {
                                @RequestParam("ngaydi") LocalDate checkout, HttpSession session,
                                RedirectAttributes redirectAttributes){
 
-        return "";
+        session.setAttribute("checkin", checkin);
+        session.setAttribute("checkout",checkout);
+        redirectAttributes.addAttribute("id", temp);
+        return "redirect:/hotel/detail/{id}/1";
     }
 
     @GetMapping("/confirm/{id}")
@@ -144,7 +204,72 @@ public class HotelController {
         long numDay = ChronoUnit.DAYS.between(checkin, checkout);
         //get money
         double totalMoney = numDay * room.getRent();
-        bookRoomService.savePaymentOff(user,room,checkin,checkout,totalMoney);
+        //save
+        bookRoomService.savePayment(user,room,checkin,checkout,totalMoney,"off");
+        return "redirect:/";
+    }
+
+    @GetMapping ("/pay")
+    public String paymentPaypal(HttpSession session) {
+        String test;
+        try {
+            //get date
+            LocalDate checkin = (LocalDate) session.getAttribute("checkin");
+            LocalDate checkout = (LocalDate) session.getAttribute("checkout");
+            //get room
+            Room  room = roomService.getRoomById(tempRoomId);
+            long numDay = ChronoUnit.DAYS.between(checkin, checkout);
+            //get money
+            double totalMoney = numDay * room.getRent();
+            double USD  = totalMoney / 23000;;
+
+            Payment payment = paypalService.createPayment(USD, "USD",
+                    "paypal","sale","Hotel booking",
+                    "http://localhost:8080/hotel/" + CANCEL_URL,
+                    "http://localhost:8080/hotel/" + SUCCESS_URL);
+            for(Links link:payment.getLinks()) {
+                if(link.getRel().equals("approval_url")) {
+                    return "redirect:"+link.getHref();
+                }
+            }
+
+        } catch (PayPalRESTException e) {
+
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+    @GetMapping(value = CANCEL_URL)
+    public String cancelPay() {
+        return "client/paypal/cancel";
+    }
+
+    @GetMapping(value = SUCCESS_URL)
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,
+                             HttpSession session) {
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            System.out.println(payment.toJSON());
+            if (payment.getState().equals("approved")) {
+                //get user
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String username = authentication.getName();
+                User user = userService.findUserByUserName(username);
+                //get date
+                LocalDate checkin = (LocalDate) session.getAttribute("checkin");
+                LocalDate checkout = (LocalDate) session.getAttribute("checkout");
+                //get room
+                Room  room = roomService.getRoomById(tempRoomId);
+                long numDay = ChronoUnit.DAYS.between(checkin, checkout);
+                //get money
+                double totalMoney = numDay * room.getRent();
+                //save
+                bookRoomService.savePayment(user,room,checkin,checkout,totalMoney,"on");
+                return "client/paypal/success";
+            }
+        } catch (PayPalRESTException e) {
+            System.out.println(e.getMessage());
+        }
         return "redirect:/";
     }
 }

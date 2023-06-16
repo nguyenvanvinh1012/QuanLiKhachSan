@@ -58,9 +58,10 @@
                         <div class="description detail-box mb-4">
                             <div class="booking-box">
                                 <div class="booking-border mb-2 bg-lgrey p-4">
-                                    <a href="#" data-toggle="modal" data-target="#pay-on" style="font-weight: bold; font-size: 20px; margin-bottom:25px" class="border-b pb-2 mb-2">
-                                        Online payment with momo
-                                        <img style="width: 28px; border-radius: 3px; margin-left: 5px" th:src="@{/images/momo.png}" />
+                                    <a th:href="@{/hotel/pay}" style="font-weight: bold; font-size: 20px; margin-bottom:25px" class="border-b pb-2 mb-2">
+                                        Online payment with
+                                        <img style="width: 90px; border-radius: 3px; margin-left: 5px" th:src="@{/images/paypal.jpg}" />
+                                        <img style="width: 55px; border-radius: 3px; margin-left: 5px; margin-left: 3px" th:src="@{/images/visa.png}" />
                                     </a>
                                     <p style="margin-top: 20px">This is the third time I've used Travelo Website and telling you the truth their services are always reliable and it ony takes few minutes to plan and finalize.</p>
                                 </div>
@@ -104,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-<!--               Modal-->
+<!--               Modal paypal-->
                 <div class="modal fade" id="pay-on" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -126,7 +127,7 @@
                                         </form>
                                         <div style="text-align:right" class="form-btn">
                                             <a style="border-radius: 5px; background-color: #F56961" href="" class="nir-btn" data-dismiss="modal" aria-label="Close">Close</a>
-                                            <a style="border-radius: 5px" href="" class="nir-btn">Yes</a>
+                                            <a style="border-radius: 5px" th:href="@{/hotel/pay}" class="nir-btn">Yes</a>
                                         </div>
                                     </div>
                                 </div>

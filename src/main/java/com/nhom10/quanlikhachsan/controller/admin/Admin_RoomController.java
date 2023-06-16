@@ -62,6 +62,7 @@ public class Admin_RoomController {
                 model.addAttribute(error.getField() + "_error",
                         error.getDefaultMessage());
             }
+            model.addAttribute("list_hotel", hotelService.getAllHotel());
             return "admin/room/add";
         }
         roomService.addRoom(room,bed_type,multipartFile);
@@ -95,7 +96,11 @@ public class Admin_RoomController {
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
         return "redirect:/admin/room/1";
     }
-
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id){
+        roomService.deleteRoom(id);
+        return "redirect:/admin/room/1";
+    }
     @GetMapping("/search")
     public String searchRoom(
             @NotNull Model model,

@@ -68,6 +68,8 @@ public class Admin_HotelController {
                 model.addAttribute(error.getField() + "_error",
                         error.getDefaultMessage());
             }
+            model.addAttribute("list_city", cityService.getAllCities());
+            model.addAttribute("list_type_hotel",hotelTypeService.getAllHotelType());
             return "admin/hotel/add";
         }
         hotelService.addHotel(hotel, vote, meal, multipartFile1,multipartFile2,multipartFile3,multipartFile4);

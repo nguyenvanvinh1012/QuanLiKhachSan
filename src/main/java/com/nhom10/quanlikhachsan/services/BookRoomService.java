@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.awt.print.Book;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,16 +34,19 @@ public class BookRoomService {
     public void deleteBookRoom(Long id){
         bookRoomRepository.deleteById(id);
     }
-    public void savePaymentOff(User user, Room room, LocalDate checkin, LocalDate checkout, double money){
+    public void savePayment(User user, Room room, LocalDate checkin, LocalDate checkout, double money, String method){
         BookRoom bookRoom = new BookRoom();
         Date checkin1 = Date.valueOf(checkin);
         Date checkout1 = Date.valueOf(checkout);
         bookRoom.setCheck_in(checkin1);
         bookRoom.setCheck_out(checkout1);
         bookRoom.setMoney(money);
-        bookRoom.setIsPaid(false);
         bookRoom.setUser(user);
         bookRoom.setRoom(room);
+        if(method == "off")
+            bookRoom.setIsPaid(false);
+        else
+            bookRoom.setIsPaid(true);
         bookRoomRepository.save(bookRoom);
     }
     public Page<BookRoom> findPaginated(int pageNo, int pageSize) {
@@ -53,5 +57,20 @@ public class BookRoomService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
         return bookRoomRepository.searchBookRoom(keyword, pageable);
     }
+    public boolean checkEmptyRoom(Room r, LocalDate checkin, LocalDate checkout){
+        Date checkin1 = Date.valueOf(checkin);
+        Date checkout1 = Date.valueOf(checkout);
+        List<BookRoom> bookRooms = bookRoomRepository.findAll();
 
+        if(bookRooms != null){
+            for (BookRoom tmp : bookRooms){
+                if(tmp.getRoom().getId() == r.getId()){
+                    if(!(checkin1.after(tmp.getCheck_out()) || checkout1.before(tmp.getCheck_in()))){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

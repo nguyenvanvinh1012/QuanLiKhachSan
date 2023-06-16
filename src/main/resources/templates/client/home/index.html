@@ -153,7 +153,7 @@
                                 <div class="trend-content">
                                     <h6 class="font-weight-normal"><i
                                             class="fa fa-map-marker-alt"></i> <span th:text="${city.name}"></span></h6>
-                                    <h4><a th:href="@{/hotel/{id}(id=${city.id})}" th:text="${city.description}"></a></h4>
+                                    <h4><a th:href="@{/hotel/{id}/{pageNo}(id=${city.id},pageNo=1)}" th:text="${city.description}"></a></h4>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +178,7 @@
                                 the majority have suffered alteration in some form, by injected humour, or randomised
                                 words which don’t look.
                             </p>
-                            <a th:href="@{/hotel/{id}(id=${HoChiMinh.id})}" class="nir-btn">Explore now <i class="fa fa-arrow-right"></i></a>
+                            <a th:href="@{/hotel/{id}/{pageNo}(id=${HoChiMinh.id},pageNo=1)}" class="nir-btn">Explore now <i class="fa fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-6 mb-4">
@@ -206,7 +206,7 @@
                                 </h4>
                             </div>
                             <div class="desti-overlay">
-                                <a th:href="@{/hotel/{id}(id=${HaNoi.id})}" class="nir-btn">
+                                <a th:href="@{/hotel/{id}/{pageNo}(id=${HaNoi.id},pageNo=1)}" class="nir-btn">
                                     <span class="white">Find now</span>
                                     <i class="fa fa-arrow-right white pl-1"></i>
                                 </a>
@@ -222,7 +222,7 @@
                                 </h4>
                             </div>
                             <div class="desti-overlay">
-                                <a th:href="@{/hotel/{id}(id=${HoiAn.id})}" class="nir-btn">
+                                <a th:href="@{/hotel/{id}/{pageNo}(id=${HoiAn.id},pageNo=1)}" class="nir-btn">
                                     <span class="white">Find now</span>
                                     <i class="fa fa-arrow-right white pl-1"></i>
                                 </a>
@@ -238,7 +238,7 @@
                                 </h4>
                             </div>
                             <div class="desti-overlay">
-                                <a th:href="@{/hotel/{id}(id=${Hue.id})}" class="nir-btn">
+                                <a th:href="@{/hotel/{id}/{pageNo}(id=${Hue.id},pageNo=1)}" class="nir-btn">
                                     <span class="white">Find now</span>
                                     <i class="fa fa-arrow-right white pl-1"></i>
                                 </a>
@@ -255,7 +255,7 @@
 
                             </div>
                             <div class="desti-overlay">
-                                <a th:href="@{/hotel/{id}(id=${DaNang.id})}" class="nir-btn">
+                                <a th:href="@{/hotel/{id}/{pageNo}(id=${DaNang.id},pageNo=1)}" class="nir-btn">
                                     <span class="white">Find now</span>
                                     <i class="fa fa-arrow-right white pl-1"></i>
                                 </a>

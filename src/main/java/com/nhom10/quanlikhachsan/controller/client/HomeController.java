@@ -48,7 +48,7 @@ public class HomeController {
             return "client/error/405";
         }
         redirectAttributes.addAttribute("id", city.getId());
-        return "redirect:/hotel/{id}";
+        return "redirect:/hotel/{id}/1";
     }
 }
 

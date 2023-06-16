@@ -78,7 +78,8 @@
                         <td>
                             <a th:href="@{/admin/room/edit/{id}(id=${room.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i></a>
-                            <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                            <a th:href="@{/admin/room/delete/{id}(id=${room.id})}"
+                               onclick="return confirm('Are you sure?')"title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                 <i class="anticon anticon-delete"></i></a>
                         </td>
                     </tr>

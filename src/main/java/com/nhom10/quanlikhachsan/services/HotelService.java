@@ -125,7 +125,10 @@ public class HotelService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         return this.hotelRepository.findAll(pageable);
     }
-
+    public Page<Hotel> findPaginatedByCityId(Long id, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.hotelRepository.findAllByActiveIdCity2(id,pageable);
+    }
     public Page<Hotel> searchHotel(String keyword, int pageNo, int pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
         return hotelRepository.searchHotel(keyword, pageable);

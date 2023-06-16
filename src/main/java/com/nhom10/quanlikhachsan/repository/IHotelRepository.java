@@ -15,6 +15,8 @@ import java.util.List;
 public interface IHotelRepository extends PagingAndSortingRepository<Hotel, Long>,JpaRepository<Hotel, Long> {
     @Query("select h from Hotel h where h.active = true and h.city.id = :id")
     List<Hotel> findAllByActiveIdCity(@Param("id") Long id);
+    @Query("select h from Hotel h where h.active = true and h.city.id = :id")
+    Page<Hotel> findAllByActiveIdCity2(@Param("id") Long id, Pageable pageable);
     @Query("SELECT COUNT(h) FROM Hotel h WHERE h.active and h.city.id = :cityId")
     Long countHotelsByCityId(@Param("cityId") Long cityId);
     @Query("select h from Hotel h where h.id = :id")

@@ -72,7 +72,6 @@
                         <td><span th:text="${hotel.vote}"></span><i style="margin-left: 2px"
                                                                     class="anticon anticon-star"></i></td>
                         <td th:text="${hotel.city.name}"></td>
-                        <!--            <td th:text="${hotel.hotel_type.name}"></td>-->
                         <td th:text="${hotel.hotel_type.name}"></td>
                         <td th:if="${hotel.active} == true">
                             <div class="d-flex align-items-center">
@@ -104,7 +103,7 @@
                     Total Rows: [[${totalItems}]]
                 </div>
                 <div class = "col-sm-1">
-                    <a th:if="${currentPage > 1}" th:href="@{'/admin/hotel/' + ${currentPage - 1}}">Back</a>
+                    <a th:if="${currentPage > 1}" th:href="@{'/admin/hotel/'  + ${currentPage - 1}}">Back</a>
                     <span th:unless="${currentPage > 1 }">Back</span>
                 </div>
                 <div class = "col-sm-1">
@@ -120,32 +119,6 @@
 
                 <div class="col-sm-1">
                     <a th:if="${currentPage < totalPages}" th:href="@{'/admin/hotel/' + ${totalPages}}">Last</a>
-                    <span th:unless="${currentPage < totalPages}">Last</span>
-                </div>
-            </div>
-        </div>
-        <div th:if = "${totalPages > 1}">
-            <div class = "row col-sm-10">
-                <div class = "col-sm-2">
-                    Total Rows: [[${totalItems}]]
-                </div>
-                <div class = "col-sm-1">
-                    <a th:if="${currentPage > 1}" th:href="@{'/admin/city/' + ${currentPage - 1}}">Back</a>
-                    <span th:unless="${currentPage > 1 }">Back</span>
-                </div>
-                <div class = "col-sm-1">
-					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/admin/city/' + ${i}}">[[${i}]]</a>
-						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					</span>
-                </div>
-                <div class = "col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/city/' + ${currentPage + 1}}">Next</a>
-                    <span th:unless="${currentPage < totalPages}">Next</span>
-                </div>
-
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/city/' + ${totalPages}}">Last</a>
                     <span th:unless="${currentPage < totalPages}">Last</span>
                 </div>
             </div>

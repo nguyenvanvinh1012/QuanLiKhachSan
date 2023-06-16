@@ -1,0 +1,21 @@
+.hidden-checkbox {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+input[type="checkbox"]:checked ~ #successMessage {
+    color: #333;
+}
+
+input[type="checkbox"]:checked ~ svg .tick {
+    display: block;
+}
+
+input[type="checkbox"]:checked ~ svg .cross {
+    display: none;
+}
+
+.cross {
+    display: none;
+}

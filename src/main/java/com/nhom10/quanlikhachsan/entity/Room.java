@@ -40,7 +40,7 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<BookRoom> bookRooms = new ArrayList<>();
     public String getImagesPath(){
         if(image == null || id == null) return null;
