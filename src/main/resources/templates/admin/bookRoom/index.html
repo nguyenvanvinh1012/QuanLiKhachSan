@@ -74,8 +74,6 @@
                         <td> <span th:text="${#numbers.formatDecimal(temp.money, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</td>
                         <td th:text="${temp.room.id}"></td>
                         <td>
-                            <a th:href="@{/admin/bookRoom/edit/{id}(id=${temp.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                <i class="anticon anticon-edit"></i></a>
                             <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
                                 <i class="anticon anticon-delete"></i></a>
                         </td>

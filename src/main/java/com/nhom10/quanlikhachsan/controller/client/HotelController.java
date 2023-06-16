@@ -104,25 +104,25 @@ public class HotelController {
         }
 
         Hotel hotel = hotelService.getHotelById(id);
-        // Gọi Google Maps Geocoding API để lấy tọa độ từ địa chỉ
-//        GeoApiContext context = new GeoApiContext.Builder()
-//                .apiKey("AIzaSyAmOTTdm9TwR98k9vaolqGuONg-FaUX2lk")
-//                .build();
-//        GeocodingResult[] results;
-//        try {
-//            results = GeocodingApi.geocode(context, hotel.getAddress()).await();
-//        } catch (Exception e) {
-//            // Xử lý lỗi nếu cần thiết
-//            return "error";
-//        }
-//        if (results != null && results.length > 0) {
-//            double latitude = results[0].geometry.location.lat;
-//            double longitude = results[0].geometry.location.lng;
-//
-//            // Truyền tọa độ lat,lng vào view
-//            model.addAttribute("latitude", latitude);
-//            model.addAttribute("longitude", longitude);
-//        }
+//         Gọi Google Maps Geocoding API để lấy tọa độ từ địa chỉ
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyBzGedy8KmGBxxSyGlUGMyVPhdlREd6BzY")
+                .build();
+        GeocodingResult[] results;
+        try {
+            results = GeocodingApi.geocode(context, hotel.getAddress()).await();
+        } catch (Exception e) {
+            // Xử lý lỗi nếu cần thiết
+            return "error";
+        }
+        if (results != null && results.length > 0) {
+            double latitude = results[0].geometry.location.lat;
+            double longitude = results[0].geometry.location.lng;
+
+            // Truyền tọa độ lat,lng vào view
+            model.addAttribute("latitude", latitude);
+            model.addAttribute("longitude", longitude);
+        }
 
         model.addAttribute("hotel", hotel);
         LocalDate checkin = (LocalDate) session.getAttribute("checkin");
@@ -154,7 +154,7 @@ public class HotelController {
         session.setAttribute("checkin", checkin);
         session.setAttribute("checkout",checkout);
         redirectAttributes.addAttribute("id", temp);
-        return "redirect:/hotel/detail/{id}/1";
+        return "redirect:/hotel/detail/{id}";
     }
 
     @GetMapping("/confirm/{id}")

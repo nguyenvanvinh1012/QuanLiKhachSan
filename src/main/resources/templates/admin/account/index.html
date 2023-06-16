@@ -66,19 +66,6 @@
                         </td>
                         <td th:text="${account.phone}"></td>
                         <td th:text="${account.email}"></td>
-
-                        <td th:if="${account.active} == true">
-                            <div class="d-flex align-items-center">
-                                <div class="badge badge-success badge-dot m-r-10"></div>
-                                <div>Active</div>
-                            </div>
-                        </td>
-                        <td th:if="${account.active} == false">
-                            <div class="d-flex align-items-center">
-                                <div class="badge badge-danger badge-dot m-r-10"></div>
-                                <div>Disable</div>
-                            </div>
-                        </td>
                         <td>
                             <a th:href="@{/admin/account/edit/{id}(id=${account.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
                                 <i class="anticon anticon-edit"></i></a>

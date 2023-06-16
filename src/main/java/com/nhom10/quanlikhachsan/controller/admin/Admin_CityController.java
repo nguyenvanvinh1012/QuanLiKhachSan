@@ -87,7 +87,7 @@ public class Admin_CityController {
                 model.addAttribute(error.getField() + "_error",
                         error.getDefaultMessage());
             }
-            return "admin/city/add";
+            return "admin/city/edit";
         }
 
         cityService.updateCity(updateCity, multipartFile);

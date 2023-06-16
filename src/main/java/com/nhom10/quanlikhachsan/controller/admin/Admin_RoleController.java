@@ -89,7 +89,7 @@ public class Admin_RoleController {
 
         roleSevervice.updateRole(updateRole);
         redirectAttributes.addFlashAttribute("message", "Save successfully!");
-        return "redirect:/admin/role";
+        return "redirect:/admin/role/1";
     }
     @GetMapping("/search")
     public String searchRole(
