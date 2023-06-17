@@ -46,4 +46,9 @@ public class Admin_BookRoomController {
         model.addAttribute("totalPages", searchedBookRoom.getTotalPages());
         return "admin/bookRoom/index";
     }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id){
+        bookRoomService.deleteBookRoom(id);
+        return "redirect:/admin/bookRoom/1";
+    }
 }

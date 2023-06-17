@@ -64,4 +64,8 @@ public class HotelTypeService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
         return hotelTypeRepository.searchHotelType(keyword, pageable);
     }
+    public List<HotelType> getAllHotelTypeActive(){
+        return hotelTypeRepository.findAllHotelTypeActive();
+    }
 }
+

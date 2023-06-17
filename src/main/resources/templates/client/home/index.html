@@ -323,18 +323,16 @@
             </div>
 
             <div class="row team-slider">
-                <!--                @foreach (var item in listLoaiKS)-->
-                <!--                {-->
-                <div class="col-lg-4 col-md-6 mb-4 slider-item">
+                <div th:each="temp: ${list_hotelType}" class="col-lg-4 col-md-6 mb-4 slider-item">
                     <div class="trend-item">
                         <div class="trend-image">
-                            <a href="">
-                                <img src="" alt="image">
+                            <a href="#">
+                                <img th:src="@{${temp.imagesPath}}"alt="image">
                             </a>
                         </div>
                         <div class="trend-content-main">
                             <div style="padding: 23px 20px 20px; background: #ffffff" class="trend-content">
-                                <h4><a href="">Ten</a></h4>
+                                <h4><a href="#" th:text="${temp.name}"></a></h4>
                                 <p class="mb-0">
                                     <!--                                    @*<i class="fa fa-eye mr-1"></i>*@ 19.187 @item.Ten-->
                                 </p>
@@ -342,7 +340,6 @@
                         </div>
                     </div>
                 </div>
-                <!--                }-->
             </div>
         </div>
     </section>

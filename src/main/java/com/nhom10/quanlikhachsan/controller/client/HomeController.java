@@ -2,6 +2,7 @@ package com.nhom10.quanlikhachsan.controller.client;
 
 import com.nhom10.quanlikhachsan.entity.City;
 import com.nhom10.quanlikhachsan.services.CityService;
+import com.nhom10.quanlikhachsan.services.HotelTypeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +17,9 @@ import java.time.LocalDate;
 @RequestMapping("/")
 public class HomeController {
     @Autowired
-    CityService cityService;
+    private CityService cityService;
+    @Autowired
+    private HotelTypeService hotelTypeService;
     @GetMapping("")
     public String home(Model model){
         City HCMCity = cityService.getCityById(1L);
@@ -26,6 +29,7 @@ public class HomeController {
         City HoiAnCity = cityService.getCityById(5L);
 
         model.addAttribute("list_city", cityService.getAllCitiesActive());
+        model.addAttribute("list_hotelType", hotelTypeService.getAllHotelTypeActive());
         model.addAttribute("HoChiMinh",HCMCity);
         model.addAttribute("HaNoi",HaNoiCity);
         model.addAttribute("DaNang",DNCity);
