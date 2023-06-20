@@ -105,8 +105,12 @@ public class HotelController {
 
         Hotel hotel = hotelService.getHotelById(id);
 //         Gọi Google Maps Geocoding API để lấy tọa độ từ địa chỉ
+//        AIzaSyAsV9GzuyjrHQMS5IEIZL4pjAhbzAIPCzY
+//        AIzaSyAmOTTdm9TwR98k9vaolqGuONg-FaUX2lk
+//        AIzaSyBzGedy8KmGBxxSyGlUGMyVPhdlREd6BzY
+//        AIzaSyB0a4JQrGRBFION_TSc5DWcaQMPTNji4ro
         GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey("AIzaSyAsV9GzuyjrHQMS5IEIZL4pjAhbzAIPCzY")
+                .apiKey("AIzaSyAmOTTdm9TwR98k9vaolqGuONg-FaUX2lk")
                 .build();
         GeocodingResult[] results;
         try {

@@ -72,8 +72,8 @@
                         <td><span th:text="${#numbers.formatDecimal(room.rent, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</td>
                         <td th:text="${room.convenient}"></td>
                         <td th:text="${room.description}"></td>
-                        <td th:if="${room.bed_type == 1}">Giường đơn</td>
-                        <td th:if="${room.bed_type == 2}">Giường đôi</td>
+                        <td th:if="${room.bed_type == 1}">Single Bed</td>
+                        <td th:if="${room.bed_type == 2}">Double Bed</td>
                         <td th:text="${room.hotel.name}"></td>
                         <td>
                             <a th:href="@{/admin/room/edit/{id}(id=${room.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
@@ -96,7 +96,7 @@
                     <a th:if="${currentPage > 1}" th:href="@{'/admin/room/' + ${currentPage - 1}}">Back</a>
                     <span th:unless="${currentPage > 1 }">Back</span>
                 </div>
-                <div class = "col-sm-1">
+                <div class = "col-sm-2">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 						<a th:if="${currentPage != i}" th:href="@{'/admin/room/' + ${i}}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;

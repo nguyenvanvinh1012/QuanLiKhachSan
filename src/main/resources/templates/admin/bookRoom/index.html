@@ -73,10 +73,6 @@
                         </td>
                         <td> <span th:text="${#numbers.formatDecimal(temp.money, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</td>
                         <td th:text="${temp.room.id}"></td>
-                        <td>
-                            <a th:href="@{/admin/bookRoom/delete/{id}(id=${temp.id})}" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                <i class="anticon anticon-delete"></i></a>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -88,22 +84,22 @@
                     Total Rows: [[${totalItems}]]
                 </div>
                 <div class = "col-sm-1">
-                    <a th:if="${currentPage > 1}" th:href="@{'/admin/role/' + ${currentPage - 1}}">Back</a>
+                    <a th:if="${currentPage > 1}" th:href="@{'/admin/bookRoom/' + ${currentPage - 1}}">Back</a>
                     <span th:unless="${currentPage > 1}">Back</span>
                 </div>
                 <div class = "col-sm-1">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/admin/role/' + ${i}}">[[${i}]]</a>
+						<a th:if="${currentPage != i}" th:href="@{'/admin/bookRoom/' + ${i}}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					</span>
                 </div>
                 <div class = "col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/role/' + ${currentPage + 1}}">Next</a>
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/bookRoom/' + ${currentPage + 1}}">Next</a>
                     <span th:unless="${currentPage < totalPages}">Next</span>
                 </div>
 
                 <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/role/' + ${totalPages}}">Last</a>
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/admin/bookRoom/' + ${totalPages}}">Last</a>
                     <span th:unless="${currentPage < totalPages}">Last</span>
                 </div>
             </div>

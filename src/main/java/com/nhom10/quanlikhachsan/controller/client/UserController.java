@@ -4,6 +4,8 @@ import com.nhom10.quanlikhachsan.services.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,5 +43,15 @@ public class UserController {
         }
         userService.save(user);
         return "redirect:/login";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(Model model)
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findUserByUserName(username);
+        model.addAttribute("user",user);
+        return "client/user/dashboard";
     }
 }

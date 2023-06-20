@@ -56,12 +56,12 @@
                         <td th:text="${role.id}"></td>
                         <td th:text="${role.name}"></td>
                         <td th:text="${role.description}"></td>
-                        <td>
-                            <a th:href="@{/admin/role/edit/{id}(id=${role.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                                <i class="anticon anticon-edit"></i></a>
-                            <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">
-                                <i class="anticon anticon-delete"></i></a>
-                        </td>
+<!--                        <td>-->
+<!--                            <a th:href="@{/admin/role/edit/{id}(id=${role.id})}" title="Edit" class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">-->
+<!--                                <i class="anticon anticon-edit"></i></a>-->
+<!--                            <a href="#" title="Delete" class="btn btn-icon btn-hover btn-sm btn-rounded">-->
+<!--                                <i class="anticon anticon-delete"></i></a>-->
+<!--                        </td>-->
                     </tr>
                     </tbody>
                 </table>
@@ -76,7 +76,7 @@
                     <a th:if="${currentPage > 1}" th:href="@{'/admin/role/' + ${currentPage - 1}}">Back</a>
                     <span th:unless="${currentPage > 1}">Back</span>
                 </div>
-                <div class = "col-sm-1">
+                <div class = "col-sm-2">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 						<a th:if="${currentPage != i}" th:href="@{'/admin/role/' + ${i}}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;

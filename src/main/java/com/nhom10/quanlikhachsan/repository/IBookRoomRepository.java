@@ -16,4 +16,5 @@ public interface IBookRoomRepository extends JpaRepository<BookRoom, Long> {
         """
     )
     Page<BookRoom> searchBookRoom(String keyword, Pageable pageable);
+
 }

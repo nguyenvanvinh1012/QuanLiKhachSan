@@ -5,7 +5,7 @@
        lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add hotel</title>
+    <title>Edit room</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -25,7 +25,7 @@
                       method="post" enctype="multipart/form-data" class="card-body">
                     <input type="hidden" th:field="*{id}">
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="roomName">Hotel Name</label>
+                        <label class="font-weight-semibold" for="roomName">Room Name</label>
                         <input type="text" th:field="*{name}" class="form-control" id="roomName" placeholder="Room name">
                     </div>
                     <div class="form-group">
@@ -37,7 +37,7 @@
                         <input type="text" th:field="*{rent}" class="form-control" id="rent" placeholder="Rent">
                     </div>
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="convenient">Center</label>
+                        <label class="font-weight-semibold" for="convenient">Convenient</label>
                         <input type="text" th:field="*{convenient}" class="form-control" id="convenient" placeholder="Convenient">
                     </div>
                     <div class="form-group">
@@ -48,8 +48,8 @@
                         <label class="font-weight-semibold">Bed_type</label>
                         <select class="custom-select" id="bed_type" name="bed_type">
                             <option value="0">Select bed type</option>
-                            <option value="1">Phòng đơn</option>
-                            <option value="2">Phòng đôi</option>
+                            <option value="1">Single Bed</option>
+                            <option value="2">Double Bed</option>
                         </select>
                     </div>
                     <div class="form-group">

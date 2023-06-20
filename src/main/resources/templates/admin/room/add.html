@@ -5,7 +5,7 @@
        lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add city</title>
+    <title>Add room</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -24,7 +24,7 @@
                 <form th:action="@{/admin/room/add}" th:object="${room}"
                       method="post" enctype="multipart/form-data" class="card-body">
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="roomName">Type Name</label>
+                        <label class="font-weight-semibold" for="roomName">Room Name</label>
                         <input type="text" th:field="*{name}" class="form-control" id="roomName" placeholder="Room name">
                         <span class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                     </div>
@@ -51,8 +51,8 @@
                     <div class="form-group">
                         <label class="font-weight-semibold">Bed_type</label>
                         <select class="custom-select" id="bed_type" name="bed_type">
-                            <option value="1">Phòng đơn</option>
-                            <option value="2">Phòng đôi</option>
+                            <option value="1">Single Bed</option>
+                            <option value="2">Double Bed</option>
                         </select>
                     </div>
                     <div class="form-group">
