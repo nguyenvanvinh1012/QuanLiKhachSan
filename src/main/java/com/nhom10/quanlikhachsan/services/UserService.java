@@ -7,6 +7,7 @@ import com.nhom10.quanlikhachsan.repository.IUserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class UserService {
 
     public User findUserByUserName(String userName){
         return userRepository.findByUsername(userName);
+    }
+    public User findUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
     public void save(User user) {
         user.setPassword(new BCryptPasswordEncoder()
@@ -49,5 +53,27 @@ public class UserService {
         if(roleId != 0 && userId != 0){
             userRepository.addRoleToUser(userId,roleId);
         }
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws UserNotFoundException{
+        User user = userRepository.findByEmail(email);
+        if(user != null){
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("Could not find any user with email "+ email);
+        }
+    }
+    public User getByResetPasswordToken(String resetPasswordToken){
+        return userRepository.findByResetPasswordToken(resetPasswordToken);
+    }
+    public void updatePassword(User user, String newPassword){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodePassword = passwordEncoder.encode(newPassword);
+
+        user.setPassword(encodePassword);
+        user.setResetPasswordToken(null);
+
+        userRepository.save(user);
     }
 }

@@ -27,6 +27,9 @@ public class BookRoomService {
     public List<BookRoom> getAllBookRoom(){
         return bookRoomRepository.findAll();
     }
+    public List<BookRoom> getAllBookRoomOfUser(Long id){
+        return bookRoomRepository.findAllBookedRoomOfUser(id);
+    }
     public BookRoom getBookRoomById(Long id){
         Optional<BookRoom> optional =bookRoomRepository.findById(id);
         return optional.orElse(null);

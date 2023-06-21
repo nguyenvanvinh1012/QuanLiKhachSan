@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/user_layout}"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booked room</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div id="dashboard" class="pt-10 pb-10">
+    <div class="container">
+      <div class="dashboard-main">
+        <div class="row">
+          <div class="dashboard-sidebar">
+            <a href="#" class="dashboard-responsive-nav-trigger"><i class="fa fa-reorder"></i> Dashboard Navigation</a>
+            <div class="dashboard-nav">
+              <div class="dashboard-nav-inner">
+                <ul>
+                  <li class="active"><a id="account-dashboard-tab" href="/dashboard" role="tab" aria-controls="account-dashboard" aria-selected="true"><i class="sl sl-icon-settings"></i> Account Information</a></li>
+                  <li><a id="account-orders-tab" href="" role="tab" aria-controls="account-orders" aria-selected="false"><i class="fa fa-list-ul"></i>Booking History</a></li></ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
+            <div class="dashboard-content">
+              <div class="dashboard-form mb-4">
+                <div th:if="${#lists.size(list_bookRoom)} > 0" class="row" >
+                  <h4>List of rooms booked</h4>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <tbody>
+                      <tr>
+                        <th>ID</th>
+                        <th>Id Room</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Cost</th>
+                        <th>Payment Status</th>
+                        <th>Cancel</th>
+                      </tr>
+                      <tr th:each="temp : ${list_bookRoom}">
+                        <td th:text="${temp.id}"></td>
+                        <td th:text="${temp.room.id}"></td>
+                        <td th:text="${#dates.format(temp.check_in, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#dates.format(temp.check_out, 'dd/MM/yyyy')}"></td>
+                        <td><span th:text="${#numbers.formatDecimal(temp.money, 0, 'COMMA', 0, 'POINT')}"></span> VNĐ</td>
+                        <td th:if="${temp.isPaid} == true">
+                          <div class="d-flex align-items-center">
+                            <div class="badge badge-success badge-dot m-r-10"></div>
+                            <div class="text-success">True</div>
+                          </div>
+                        </td>
+                        <td th:if="${temp.isPaid} == false">
+                          <div class="d-flex align-items-center">
+                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                            <div class="text-danger">False</div>
+                          </div>
+                        </td>
+                        <td>
+                            <a th:if="${#dates.format(#dates.createNow(), 'yyyy-MM-dd') &lt; #dates.format(temp.check_in, 'yyyy-MM-dd') && !temp.isPaid}"
+                               th:href="@{/cancelRoom/{id}(id=${temp.id})}" onclick="return confirm('Are you sure?')">
+                            <i class="fa fa-trash-alt text-danger" aria-hidden="true"></i></a>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div th:if="${#lists.size(list_bookRoom)} <= 0">
+                  <h3 class="text-danger">Empty booking history !</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

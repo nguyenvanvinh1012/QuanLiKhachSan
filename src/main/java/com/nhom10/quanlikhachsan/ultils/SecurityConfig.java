@@ -49,6 +49,8 @@ public class SecurityConfig {
                                 "/fonts/**","/images/**" ,"/img/**"
                                 ,"/cdnjs.cloudflare.com/ajax/libs/font-awesome/**",
                                 "/webjars/jquery/3.6.0/jquery.min.js",
+                                "/forgot_password",
+                                "/reset_password/**",
                                 "/city-images/**", "/hotel-images/**", "/hotelType-images/**", "/room-images/**"
                                 ,"/hotel/{id}/{pageNo}", "/hotel/detail/{id}","/search","/hotel/search2","/hotel/search-detail"
                                 ,"/", "/register", "/error")

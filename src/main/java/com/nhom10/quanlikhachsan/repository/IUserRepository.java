@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface IUserRepository extends JpaRepository<User, Long>{
     @Query("SELECT u from User u WHERE u.username = ?1")
     User findByUsername(String username);
+    @Query("SELECT u from User u WHERE u.email = ?1")
+    User findByEmail(String email);
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO user_role (user_id, role_id)" + "VALUES (?1, ?2)" , nativeQuery = true)
@@ -24,4 +26,6 @@ public interface IUserRepository extends JpaRepository<User, Long>{
     @Query (value = "SELECT r.name FROM role r INNER JOIN user_role ur " +
             "ON r.id = ur.role_id WHERE ur.user_id = ?1", nativeQuery= true)
     String[] getRolesOfUser (Long userId);
+
+    public User findByResetPasswordToken(String token);
 }
